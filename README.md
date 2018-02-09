@@ -16,7 +16,7 @@ In a nutshell:
  * If the last known value isn't available other processes wait for the new value, polling periodically for it
 
 #### Quick Reference
-```
+```ruby
 class Foo < ActiveRecord::Base
   include AtomicCache::GlobalLMTCacheConcern
 

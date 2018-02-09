@@ -2,7 +2,7 @@
 
 ### Invalidating the Cache on Change
 The concern makes the `expire_cache` method available both on the class and on the instance.
-```
+```ruby
 expire_cache
 expire_cache(Time.now - 100) # an optional time can be given
 ```
@@ -13,7 +13,7 @@ The concern makes a `last_modified_time` method available both on the class and 
 ### Fetch
 The concern makes a `AtomicCache` object available both on the class and on the instance.
 
-```
+```ruby
 AtomicCache.fetch(options) do
   # generate block
 end
@@ -78,7 +78,7 @@ It's likely preferable to use an environments file to configure the `key_storage
 #### ★ Testing Tip ★
 If using `SharedMemory` for integration style tests, a global `before(:each)` can be configured in `spec_helper.rb`.
 
-```
+```ruby
 # spec/spec_helper.rb
 RSpec.configure do |config|
 
