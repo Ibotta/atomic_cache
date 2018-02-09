@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.name          = 'atomic_cache'
   spec.version       = AtomicCache::VERSION
   spec.authors       = ['Ibotta Developers', 'Titus Stone']
-  spec.email         = 'support@ibotta.com'
+  spec.email         = 'osscompliance@ibotta.com'
 
   spec.summary       = 'summary'
   spec.description   = 'desc'
