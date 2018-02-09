@@ -1,4 +1,6 @@
 # atomic_cache Gem
+[![Build Status](https://travis-ci.org/Ibotta/atomic_cache.svg?branch=master)](https://travis-ci.org/Ibotta/atomic_cache)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/790faad5866d2a00ca6c/test_coverage)](https://codeclimate.com/github/Ibotta/atomic_cache/test_coverage)
 
 ## User Documentation
  * [Installation & Project Setup](docs/PROJECT_SETUP.md)
