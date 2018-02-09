@@ -7,8 +7,8 @@ require 'atomic_cache/version'
 Gem::Specification.new do |spec|
   spec.name          = 'atomic_cache'
   spec.version       = AtomicCache::VERSION
-  spec.authors       = ['']
-  # spec.metadata['allowed_push_host'] = 'TBD'
+  spec.authors       = ['Ibotta Developers', 'Titus Stone']
+  spec.email         = 'support@ibotta.com'
 
   spec.summary       = 'summary'
   spec.description   = 'desc'
