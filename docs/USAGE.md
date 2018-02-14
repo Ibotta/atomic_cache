@@ -39,7 +39,7 @@ The danger with `quick_retry_ms` is that when enabled it applies a delay to all 
 
 `quick_retry_ms` is most effective for caches that are quick to generate but whose values are slow to change.  `quick_retry_ms` is least effective for caches that are slow to update but quick to change.
 
-![quick_retry_ms graph](img/quick_retry_ms_graph.png)
+![quick_retry_ms graph](/Ibotta/atomic_cache/raw/ca473f28e179da8c24f638eeeeb48750bc8cbe64/docs/img/quick_retry_graph.png)
 
 #### `max_retries` & `backoff_duration_ms`
 _`max_retries` defaults to 5._
