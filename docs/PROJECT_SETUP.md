@@ -25,6 +25,8 @@ AtomicCache::DefaultConfig.configure do |config|
 end
 ```
 
+Note that `Datadog::Statsd` is not _required_.  Adding it, however, will enable metrics support.
+
 #### Required
   * `cache_storage` - Storage adapter for cache (see below)
   * `key_storage` - Storage adapter for key manager (see below)
