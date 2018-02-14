@@ -1,7 +1,4 @@
 ## Gem Installation
-
-You will need to ensure you have the correct deploy credentials
-
 Add this line to your application's Gemfile:
 
 ```ruby
