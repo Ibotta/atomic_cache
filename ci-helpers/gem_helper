@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'atomic_cache/version'
+require './lib/atomic_cache/version'
 require 'bundler/gem_helper'
 require 'gems'
 require 'git'
