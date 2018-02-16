@@ -24,7 +24,15 @@ jobs:
         - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 
     - stage: tag-new-release-if-applicable
-      if: branch = master
+      # TODO: restore master before merge
+      # if: branch = master
+      if: branch = feature/ci-publishing
+      before_script:
+        - openssl aes-256-cbc -K $encrypted_bfd358de8814_key -iv $encrypted_bfd358de8814_iv -in ./ci-helpers/atomic_cache_deploy.enc -out atomic_cache_deploy -d
+        - echo -e "Host example.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+        - chmod 600 atomic_cache_deploy
+        - mv deploy-key ~/.ssh/id_rsa
+        - git remote add deploy ssh://git@github.com/Ibotta/atomic_cache.git
       script:
         - ./ci-helpers/gem_helper tag_new_release_if_applicable
 
