@@ -1,0 +1,71 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'gems'
+require 'bundler/gem_helper'
+
+GEM_NAME = 'atomic_cache'
+
+module AtomicCacheCi
+  class GemHelper
+    def initialize
+      Gems.configure do |config|
+        config.key = ENV['RUBYGEMS_API_TOKEN']
+      end
+    end
+
+    def tag_new_release_if_applicable
+      puts('Determining if a new release tag is required...')
+
+      git_version_str = version(:local) do
+        gemhelper.gemspec.version
+      end
+
+      remote_version_str = version(:rubygems) do
+        Gems.info(GEM_NAME)['version']
+      end
+
+      if Gem::Version.new(git_version_str) > Gem::Version.new(remote_version_str)
+        puts 'The version in the repoistory is newer than what is on rubygems.org. Starting the release pipeline.'
+        create_new_release(git_version_str)
+      else
+        puts 'The version in the repository is not newer than what is on rubygems.org. No new tag needs to be created.'
+      end
+    end
+
+    def publish_gem
+      gemfile = gemhelper.build_gem
+      Gems.push(File.new(gemfile))
+    end
+
+    private
+
+    def gemhelper
+      @gemhelper ||= Bundler::GemHelper.new(nil, GEM_NAME)
+    end
+
+    def version(source)
+      puts "Fetching #{GEM_NAME} version from #{source}"
+
+      version = yield
+      raise("Error fetching #{source} version! ABORT.") if version.nil?
+
+      puts "#{GEM_NAME} version on #{source} is #{version}"
+      version
+    end
+
+    def create_new_release(version)
+      # TODO
+    end
+  end
+end
+
+if !ENV['CI']
+  raise('This script should only be used by Travis in a CI enviornment.')
+end
+
+cmd = ARGV.first
+case cmd
+when 'tag_new_release_if_applicable'
+  AtomicCacheCi::GemHelper.new.tag_new_release_if_applicable
+end

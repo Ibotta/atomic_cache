@@ -3,6 +3,7 @@ language: ruby
 stages:
   - test-2.4
   - test-2.5
+  - publish-gem
 
 jobs:
   include:
@@ -21,3 +22,14 @@ jobs:
         - bundle exec rake spec
       after_script:
         - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+
+    - stage: tag-new-release-if-applicable
+      if: branch = master
+      script:
+        - ./ci-helpers/gem_helper tag_new_release_if_applicable
+
+
+    - stage: publish-gem
+      if: tag =~ ^v # tags starting with "v" represent releases (as in v0.1.0)
+      script:
+        - ./ci-helpers/gem_helper publish
