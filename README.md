@@ -48,3 +48,12 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/ibotta/atomic_cache
+
+## Releasing
+
+Releases are automatically handled via the Travis CI build. When a version greater than
+the version published on rubygems.org is pushed to the `master` branch, Travis will:
+
+- re-generate the CHANGELOG file
+- tag the release with GitHub
+- release to rubygems.org
