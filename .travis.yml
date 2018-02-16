@@ -24,9 +24,7 @@ jobs:
         - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 
     - stage: tag-new-release-if-applicable
-      # TODO: restore master before merge
-      # if: branch = master
-      if: branch = feature/ci-publishing
+      if: branch = master
       before_script:
         - openssl aes-256-cbc -K $encrypted_bfd358de8814_key -iv $encrypted_bfd358de8814_iv -in ./ci-helpers/atomic_cache_deploy.enc -out atomic_cache_deploy -d
         - echo -e "Host example.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
