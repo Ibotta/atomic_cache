@@ -24,7 +24,7 @@ module AtomicCacheCi
       create_new_release if repo_has_newer_version_than_rubygems?
     end
 
-    def publish_gem
+    def publish_to_rubygems
       gemfile = gemhelper.build_gem
       Gems.push(File.new(gemfile))
     end
@@ -115,4 +115,6 @@ cmd = ARGV.first
 case cmd
 when 'tag_new_release_if_applicable'
   AtomicCacheCi::GemHelper.new.tag_new_release_if_applicable
+when 'publish'
+  AtomicCacheCi::GemHelper.new.publish_to_rubygems
 end

@@ -28,7 +28,6 @@ jobs:
       script:
         - ./ci-helpers/gem_helper tag_new_release_if_applicable
 
-
     - stage: publish-gem
       if: tag =~ ^v # tags starting with "v" represent releases (as in v0.1.0)
       script:
