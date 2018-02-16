@@ -1,10 +1,11 @@
 #!/usr/bin/env ruby
 
-require 'rubygems'
-require 'gems'
 require 'bundler/gem_helper'
+require 'gems'
+require 'rake'
+require 'rubygems'
 
-GEM_NAME = 'atomic_cache'
+GEM_NAME = 'atomic_cache'.freeze
 
 module AtomicCacheCi
   class GemHelper
@@ -17,20 +18,7 @@ module AtomicCacheCi
     def tag_new_release_if_applicable
       puts('Determining if a new release tag is required...')
 
-      git_version_str = version(:local) do
-        gemhelper.gemspec.version
-      end
-
-      remote_version_str = version(:rubygems) do
-        Gems.info(GEM_NAME)['version']
-      end
-
-      if Gem::Version.new(git_version_str) > Gem::Version.new(remote_version_str)
-        puts 'The version in the repoistory is newer than what is on rubygems.org. Starting the release pipeline.'
-        create_new_release(git_version_str)
-      else
-        puts 'The version in the repository is not newer than what is on rubygems.org. No new tag needs to be created.'
-      end
+      create_new_release if repo_has_newer_version_than_rubygems?
     end
 
     def publish_gem
@@ -44,6 +32,24 @@ module AtomicCacheCi
       @gemhelper ||= Bundler::GemHelper.new(nil, GEM_NAME)
     end
 
+    def repo_has_newer_version_than_rubygems?
+      git_version_str = version(:local) do
+        gemhelper.gemspec.version
+      end
+
+      remote_version_str = version(:rubygems) do
+        Gems.info(GEM_NAME)['version']
+      end
+
+      if Gem::Version.new(git_version_str) > Gem::Version.new(remote_version_str)
+        puts 'The version in the repository is newer than what is on rubygems.org.'
+        true
+      else
+        puts 'The version in the repository is not newer than what is on rubygems.org'
+        false
+      end
+    end
+
     def version(source)
       puts "Fetching #{GEM_NAME} version from #{source}"
 
@@ -54,8 +60,15 @@ module AtomicCacheCi
       version
     end
 
-    def create_new_release(version)
-      # TODO
+    def create_new_release
+      update_changelog
+    end
+
+    def update_changelog
+      rake = Rake.application
+      rake.init
+      rake.load_rakefile
+      rake['changelog'].invoke
     end
   end
 end
