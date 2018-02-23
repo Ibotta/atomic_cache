@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- Rework \[release\] changelog commit [\#7](https://github.com/Ibotta/atomic_cache/pull/7) ([blimmer](https://github.com/blimmer))
 - Fix Release Script Bugs [\#5](https://github.com/Ibotta/atomic_cache/pull/5) ([blimmer](https://github.com/blimmer))
 - Publish releases via CI [\#3](https://github.com/Ibotta/atomic_cache/pull/3) ([blimmer](https://github.com/blimmer))
 - Add travis config and test coverage reporting [\#2](https://github.com/Ibotta/atomic_cache/pull/2) ([blimmer](https://github.com/blimmer))
