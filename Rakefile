@@ -1,4 +1,4 @@
-require 'atomic_cache/version'
+require './lib/atomic_cache/version'
 require "github_changelog_generator/task"
 require "rspec/core/rake_task"
 
