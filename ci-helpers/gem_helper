@@ -10,6 +10,7 @@ require 'rake'
 require 'rubygems'
 
 GEM_NAME = 'atomic_cache'.freeze
+RELEASE_COMMIT_PREFIX = '[release]'.freeze
 
 module AtomicCacheCi
   class GemHelper
@@ -19,13 +20,21 @@ module AtomicCacheCi
       end
     end
 
-    def tag_new_release_if_applicable
+    def kickoff_release_pipeline
+      return if release_commit?
+
       puts('Determining if a new release tag is required...')
 
-      create_new_release if repo_has_newer_version_than_rubygems?
+      create_release_commit if repo_has_newer_version_than_rubygems?
     end
 
-    def publish_to_rubygems
+    def publish
+      return unless release_commit?
+
+      # create a github release first
+      github_release
+
+      # publish to rubygems
       gemfile = gemhelper.build_gem
       Gems.push(File.new(gemfile))
     end
@@ -42,6 +51,10 @@ module AtomicCacheCi
 
     def local_version
       AtomicCache::VERSION
+    end
+
+    def release_commit?
+      ENV['TRAVIS_COMMIT_MESSAGE'].start_with?(RELEASE_COMMIT_PREFIX)
     end
 
     def repo_has_newer_version_than_rubygems?
@@ -72,12 +85,7 @@ module AtomicCacheCi
       version
     end
 
-    def create_new_release
-      update_changelog
-      github_release
-    end
-
-    def update_changelog
+    def create_release_commit
       # generate the changelog
       rake = Rake.application
       rake.init
@@ -90,8 +98,7 @@ module AtomicCacheCi
       git.reset
       git.add('CHANGELOG.md')
 
-      # https://docs.travis-ci.com/user/customizing-the-build/#Skipping-a-build
-      git.commit("[skip ci] release #{local_version}")
+      git.commit("#{RELEASE_COMMIT_PREFIX} #{local_version}")
       git.push('deploy')
     end
 
@@ -115,8 +122,8 @@ end
 
 cmd = ARGV.first
 case cmd
-when 'tag_new_release_if_applicable'
-  AtomicCacheCi::GemHelper.new.tag_new_release_if_applicable
+when 'kickoff_release_pipeline'
+  AtomicCacheCi::GemHelper.new.kickoff_release_pipeline
 when 'publish'
-  AtomicCacheCi::GemHelper.new.publish_to_rubygems
+  AtomicCacheCi::GemHelper.new.publish
 end
