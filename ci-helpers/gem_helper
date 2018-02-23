@@ -1,0 +1,120 @@
+#!/usr/bin/env ruby
+
+require './lib/atomic_cache/version'
+require 'bundler/gem_helper'
+require 'gems'
+require 'git'
+require 'octokit'
+require 'rake'
+require 'rubygems'
+
+GEM_NAME = 'atomic_cache'.freeze
+
+module AtomicCacheCi
+  class GemHelper
+    def initialize
+      Gems.configure do |config|
+        config.key = ENV['RUBYGEMS_API_TOKEN']
+      end
+    end
+
+    def tag_new_release_if_applicable
+      puts('Determining if a new release tag is required...')
+
+      create_new_release if repo_has_newer_version_than_rubygems?
+    end
+
+    def publish_to_rubygems
+      gemfile = gemhelper.build_gem
+      Gems.push(File.new(gemfile))
+    end
+
+    private
+
+    def gemhelper
+      @gemhelper ||= Bundler::GemHelper.new(nil, GEM_NAME)
+    end
+
+    def git_client
+      @git_client ||= Git.open('.')
+    end
+
+    def local_version
+      AtomicCache::VERSION
+    end
+
+    def repo_has_newer_version_than_rubygems?
+      git_version_str = version(:local) do
+        local_version
+      end
+
+      remote_version_str = version(:rubygems) do
+        Gems.info(GEM_NAME)['version']
+      end
+
+      if Gem::Version.new(git_version_str) > Gem::Version.new(remote_version_str)
+        puts 'The version in the repository is newer than what is on rubygems.org.'
+        true
+      else
+        puts 'The version in the repository is not newer than what is on rubygems.org'
+        false
+      end
+    end
+
+    def version(source)
+      puts "Fetching #{GEM_NAME} version from #{source}"
+
+      version = yield
+      raise("Error fetching #{source} version! ABORT.") if version.nil?
+
+      puts "#{GEM_NAME} version on #{source} is #{version}"
+      version
+    end
+
+    def create_new_release
+      update_changelog
+      github_release
+    end
+
+    def update_changelog
+      # generate the changelog
+      rake = Rake.application
+      rake.init
+      rake.load_rakefile
+      rake['changelog'].invoke
+
+      # commit it to master
+      git = git_client
+      git.reset
+      git.add('CHANGELOG.md')
+
+      # https://docs.travis-ci.com/user/customizing-the-build/#Skipping-a-build
+      git.commit("[skip ci] release #{local_version}")
+      git.push('deploy')
+    end
+
+    def github_release
+      github = Octokit::Client.new(access_token: ENV['GITHUB_API_TOKEN'])
+      tag = "v#{local_version}"
+      github.create_release("Ibotta/#{GEM_NAME}", local_version,
+        tag_name: tag,
+        target_commitish: 'master',
+        name: "atomic_cache release #{local_version}",
+        body: "See [changelog](https://github.com/Ibotta/atomic_cache/blob/#{tag}/CHANGELOG.md)",
+        prerelease: local_version.include?('.rc')
+      )
+    end
+  end
+end
+
+if !ENV['CI']
+  raise('This script should only be used by Travis in a CI enviornment.')
+end
+
+cmd = ARGV.first
+case cmd
+when 'tag_new_release_if_applicable'
+  AtomicCacheCi::GemHelper.new.tag_new_release_if_applicable
+when 'publish'
+  AtomicCacheCi::GemHelper.new.publish_to_rubygems
+end

@@ -1,4 +1,5 @@
 # atomic_cache Gem
+[![Gem Version](https://badge.fury.io/rb/atomic_cache.svg)](https://badge.fury.io/rb/atomic_cache)
 [![Build Status](https://travis-ci.org/Ibotta/atomic_cache.svg?branch=master)](https://travis-ci.org/Ibotta/atomic_cache)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/790faad5866d2a00ca6c/test_coverage)](https://codeclimate.com/github/Ibotta/atomic_cache/test_coverage)
 
@@ -42,8 +43,15 @@ For further details and examples see [Usage & Testing](docs/USAGE.md)
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/ibotta/atomic_cache
+
+## Releasing
+
+Releases are automatically handled via the Travis CI build. When a version greater than
+the version published on rubygems.org is pushed to the `master` branch, Travis will:
+
+- re-generate the CHANGELOG file
+- tag the release with GitHub
+- release to rubygems.org
