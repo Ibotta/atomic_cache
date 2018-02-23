@@ -25,6 +25,8 @@ jobs:
         - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
         - chmod 600 atomic_cache_deploy
         - mv atomic_cache_deploy ~/.ssh/id_rsa
+        - git config --global user.email "deploy-bot@ibotta.com"
+        - git config --global user.name "Deploy Bot"
         - git remote add deploy ssh://git@github.com/Ibotta/atomic_cache.git
       script:
         - ./ci-helpers/gem_helper tag_new_release_if_applicable
