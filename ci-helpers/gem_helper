@@ -86,6 +86,7 @@ module AtomicCacheCi
 
       # commit it to master
       git = git_client
+      git.checkout('master')
       git.reset
       git.add('CHANGELOG.md')
 
