@@ -26,7 +26,7 @@ module AtomicCache
           entry = store[key]
           return nil unless entry.present?
 
-          unmarshaled = Marshal.load(entry[:value])
+          unmarshaled = unmarshal(entry[:value], user_options)
           return unmarshaled if entry[:ttl].nil? or entry[:ttl] == false
 
           life = Time.now - entry[:written_at]
