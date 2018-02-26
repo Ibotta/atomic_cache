@@ -17,7 +17,7 @@ module AtomicCache
       def add(raw_key, new_value, ttl, user_options=nil)
         store_op(raw_key, user_options) do |key, options|
           return false if store.has_key?(key)
-          write(key, new_value, ttl)
+          write(key, new_value, ttl, user_options)
         end
       end
 
@@ -41,7 +41,7 @@ module AtomicCache
 
       def set(raw_key, new_value, user_options=nil)
         store_op(raw_key, user_options) do |key, options|
-          write(key, new_value, options[:expires_in])
+          write(key, new_value, options[:expires_in], user_options)
         end
       end
 
@@ -52,13 +52,9 @@ module AtomicCache
         end
       end
 
-      def write(key, value, ttl=nil)
-        # stored_value = nil
-        # stored_value = Marshal.dump(value) unless value.nil?
-
+      def write(key, value, ttl=nil, user_options=nil)
         store[key] = {
-          # value: stored_value,
-          value: Marshal.dump(value),
+          value: marshal(value, user_options),
           ttl: ttl || false,
           written_at: Time.now
         }
