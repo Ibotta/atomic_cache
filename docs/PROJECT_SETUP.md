@@ -36,7 +36,7 @@ Note that `Datadog::Statsd` is not _required_.  Adding it, however, will enable 
   * `key_storage` - Storage adapter for key manager (see below)
 
 #### Optional
-  * `default_options` - Default options for every fetch call.  See [options](/Ibotta/atomic_cache/blob/master/docs/USAGE.md#fetch).
+  * `default_options` - Default options for every fetch call.  See [fetch options](/Ibotta/atomic_cache/blob/master/docs/USAGE.md#fetch).
   * `logger` - Logger instance.  Used for debug and warn logs. Defaults to nil.
   * `timestamp_formatter` - Proc to format last modified time for storage. Defaults to timestamp (`Time.to_i`)
   * `metrics` - Metrics instance. Defaults to nil.
