@@ -39,8 +39,8 @@ module AtomicCache
 
       def set(key, value, user_options=nil)
         user_options ||= {}
-        raw = marshal(value, user_options)
-        @dalli_client.set(key, raw, user_options)
+        marshaled = marshal(value, user_options)
+        @dalli_client.set(key, marshaled, user_options)
       end
 
     end
