@@ -86,7 +86,7 @@ describe 'AtomicCacheClient' do
             Timecop.freeze(time) do
               subject.fetch(keyspace) { 'value from block' }
               lmt = key_storage.read(timestamp_manager.last_modified_time_key)
-              expect(lmt).to eq(time.to_i.to_s)
+              expect(lmt).to eq(time.to_i)
             end
           end
 

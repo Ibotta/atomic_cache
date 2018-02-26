@@ -26,14 +26,15 @@ module AtomicCache
           entry = store[key]
           return nil unless entry.present?
 
-          return entry[:value] if entry[:ttl].nil? or entry[:ttl] == false
+          unmarshaled = Marshal.load(entry[:value])
+          return unmarshaled if entry[:ttl].nil? or entry[:ttl] == false
 
           life = Time.now - entry[:written_at]
           if (life >= entry[:ttl])
             store.delete(key)
             nil
           else
-            entry[:value]
+            unmarshaled
           end
         end
       end
@@ -52,11 +53,12 @@ module AtomicCache
       end
 
       def write(key, value, ttl=nil)
-        stored_value = value.to_s
-        stored_value = nil if value.nil?
+        # stored_value = nil
+        # stored_value = Marshal.dump(value) unless value.nil?
 
         store[key] = {
-          value: stored_value,
+          # value: stored_value,
+          value: Marshal.dump(value),
           ttl: ttl || false,
           written_at: Time.now
         }
