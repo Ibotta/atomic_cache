@@ -12,16 +12,16 @@ module AtomicCache
       def store; raise NotImplementedError end
 
       # @abstract implement performing an operation on the store
-      def store_op(key, user_options=nil); raise NotImplementedError end
+      def store_op(key, user_options={}); raise NotImplementedError end
 
-      def add(raw_key, new_value, ttl, user_options=nil)
+      def add(raw_key, new_value, ttl, user_options={})
         store_op(raw_key, user_options) do |key, options|
           return false if store.has_key?(key)
           write(key, new_value, ttl, user_options)
         end
       end
 
-      def read(raw_key, user_options=nil)
+      def read(raw_key, user_options={})
         store_op(raw_key, user_options) do |key, options|
           entry = store[key]
           return nil unless entry.present?
@@ -39,7 +39,7 @@ module AtomicCache
         end
       end
 
-      def set(raw_key, new_value, user_options=nil)
+      def set(raw_key, new_value, user_options={})
         store_op(raw_key, user_options) do |key, options|
           write(key, new_value, options[:expires_in], user_options)
         end
@@ -52,7 +52,9 @@ module AtomicCache
         end
       end
 
-      def write(key, value, ttl=nil, user_options=nil)
+      protected
+
+      def write(key, value, ttl=nil, user_options)
         store[key] = {
           value: marshal(value, user_options),
           ttl: ttl || false,

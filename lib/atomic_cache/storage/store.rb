@@ -28,22 +28,14 @@ module AtomicCache
 
       protected
 
-      def marshal(value, user_options)
-        user_options ||= {}
-        if user_options[:raw]
-          value
-        else
-          Marshal.dump(value)
-        end
+      def marshal(value, user_options={})
+        return value if user_options[:raw]
+        Marshal.dump(value)
       end
 
-      def unmarshal(value, user_options)
-        user_options ||= {}
-        if user_options[:raw]
-          value
-        else
-          Marshal.load(value)
-        end
+      def unmarshal(value, user_options={})
+        return value if user_options[:raw]
+        Marshal.load(value)
       end
 
     end

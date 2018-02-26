@@ -20,8 +20,8 @@ module AtomicCache
         @dalli_client = dalli_client
       end
 
-      def add(key, new_value, ttl, user_options=nil)
-        opts = user_options&.clone || {}
+      def add(key, new_value, ttl, user_options={})
+        opts = user_options.clone
         opts[:raw] = true
 
         # dalli expects time in seconds
@@ -31,14 +31,12 @@ module AtomicCache
         response.start_with?(ADD_SUCCESS)
       end
 
-      def read(key, user_options=nil)
-        user_options ||= {}
+      def read(key, user_options={})
         raw = @dalli_client.read(key, user_options)
         unmarshal(raw, user_options)
       end
 
-      def set(key, value, user_options=nil)
-        user_options ||= {}
+      def set(key, value, user_options={})
         marshaled = marshal(value, user_options)
         @dalli_client.set(key, marshaled, user_options)
       end
