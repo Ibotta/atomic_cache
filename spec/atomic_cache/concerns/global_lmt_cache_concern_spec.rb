@@ -9,7 +9,12 @@ describe 'AtomicCacheConcern' do
   subject do
     class Foo1
       include AtomicCache::GlobalLMTCacheConcern
+
+      def example_method
+        atomic_cache.fetch(cache_keyspace(:foo)) { 'bar' }
+      end
     end
+    Foo1
   end
 
   before(:context) do
@@ -26,16 +31,20 @@ describe 'AtomicCacheConcern' do
     cache_storage.reset
   end
 
-  context 'AtomicCache' do
+  context 'atomic_cache' do
     it 'initializes a cache client' do
-      expect(subject).to respond_to(:AtomicCache)
-      expect(subject.AtomicCache).to be_a(AtomicCacheClient)
-      expect(subject.new.AtomicCache).to be_a(AtomicCacheClient)
+      expect(subject).to respond_to(:atomic_cache)
+      expect(subject.atomic_cache).to be_a(AtomicCacheClient)
+      expect(subject.new.atomic_cache).to be_a(AtomicCacheClient)
     end
 
     it 'uses the name of the class in the default keyspace' do
       subject.expire_cache
       expect(key_storage.store).to have_key(:'foo1:lmt')
+    end
+
+    it 'allows methods to be defined that utilize the cache' do
+      expect(subject.new.example_method).to eq('bar')
     end
   end
 
@@ -54,8 +63,8 @@ describe 'AtomicCacheConcern' do
       ns2 = subject.cache_keyspace(:buz)
 
       Timecop.freeze(old_time) do
-        subject.AtomicCache.fetch(ns1) { 'bar' }
-        subject.AtomicCache.fetch(ns2) { 'buz' }
+        subject.atomic_cache.fetch(ns1) { 'bar' }
+        subject.atomic_cache.fetch(ns2) { 'buz' }
       end
 
       Timecop.freeze(new_time) do
@@ -66,8 +75,8 @@ describe 'AtomicCacheConcern' do
         cache_storage.set("foo1:bar:#{lmt}", 'new-bar')
         cache_storage.set("foo1:buz:#{lmt}", 'new-buz')
 
-        ns1_value = subject.AtomicCache.fetch(ns1)
-        ns2_value = subject.AtomicCache.fetch(ns2)
+        ns1_value = subject.atomic_cache.fetch(ns1)
+        ns2_value = subject.atomic_cache.fetch(ns2)
 
         expect(ns1_value).to eq('new-bar')
         expect(ns2_value).to eq('new-buz')
@@ -110,7 +119,7 @@ describe 'AtomicCacheConcern' do
     end
 
     it 'sets the storage for the class' do
-      cache_store = subject.AtomicCache.instance_variable_get(:@storage)
+      cache_store = subject.atomic_cache.instance_variable_get(:@storage)
       expect(cache_store).to eq('valuestore')
 
       key_store = subject.instance_variable_get(:@timestamp_manager).instance_variable_get(:@storage)
