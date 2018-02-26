@@ -14,12 +14,13 @@ describe 'Dalli' do
   subject { AtomicCache::Storage::Dalli.new(dalli_client) }
 
   it 'delegates #set without options' do
-    expect(dalli_client).to receive(:set).with('key', 'value', {})
+    raw = Marshal.dump('value')
+    expect(dalli_client).to receive(:set).with('key', raw, {})
     subject.set('key', 'value')
   end
 
   it 'delegates #read without options' do
-    expect(dalli_client).to receive(:read).with('key', {})
+    expect(dalli_client).to receive(:read).with('key', {}).and_return(Marshal.dump('asdf'))
     subject.read('key')
   end
 
