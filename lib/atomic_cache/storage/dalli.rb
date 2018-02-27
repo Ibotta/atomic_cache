@@ -32,13 +32,11 @@ module AtomicCache
       end
 
       def read(key, user_options={})
-        raw = @dalli_client.read(key, user_options)
-        unmarshal(raw, user_options)
+        @dalli_client.read(key, user_options)
       end
 
       def set(key, value, user_options={})
-        marshaled = marshal(value, user_options)
-        @dalli_client.set(key, marshaled, user_options)
+        @dalli_client.set(key, value, user_options)
       end
 
     end
