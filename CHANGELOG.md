@@ -1,5 +1,22 @@
 # Change Log
 
+## [0.2.0.rc1](https://github.com/Ibotta/atomic_cache/tree/0.2.0.rc1) (2018-02-28)
+
+[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/0.1.0.rc2...0.2.0.rc1)
+
+**Implemented enhancements:**
+
+- Marshaling [\#10](https://github.com/Ibotta/atomic_cache/pull/10) ([tstone](https://github.com/tstone))
+- Improved project setup docs [\#8](https://github.com/Ibotta/atomic_cache/pull/8) ([tstone](https://github.com/tstone))
+
+**Fixed bugs:**
+
+- Bugfix/naming [\#9](https://github.com/Ibotta/atomic_cache/pull/9) ([tstone](https://github.com/tstone))
+
+**Merged pull requests:**
+
+- Release Version 0.2.0rc2 [\#11](https://github.com/Ibotta/atomic_cache/pull/11) ([lucas-ibotta](https://github.com/lucas-ibotta))
+
 ## [0.1.0.rc2](https://github.com/Ibotta/atomic_cache/tree/0.1.0.rc2) (2018-02-23)
 
 [Full Changelog](https://github.com/Ibotta/atomic_cache/compare/011a6e09f319be85fd1b8dd711108ddb37805c18...0.1.0.rc2)
