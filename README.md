@@ -28,7 +28,7 @@ class Foo < ActiveRecord::Base
 
   def active_foos(ids)
     keyspace = cache_keyspace(:activeids, ids)
-    AtomicCache.fetch(keyspace, expires_in: 5.minutes) do
+    atomic_cache.fetch(keyspace, expires_in: 5.minutes) do
       Foo.active.where(id: ids.uniq)
     end
 

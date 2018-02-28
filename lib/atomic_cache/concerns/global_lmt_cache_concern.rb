@@ -15,7 +15,7 @@ module AtomicCache
 
     class_methods do
 
-      def AtomicCache
+      def atomic_cache
         init_atomic_cache
         @atomic_cache
       end
@@ -91,8 +91,8 @@ module AtomicCache
       end
     end
 
-    def AtomicCache
-      self.class.AtomicCache
+    def atomic_cache
+      self.class.atomic_cache
     end
 
     def cache_keyspace(ns)
