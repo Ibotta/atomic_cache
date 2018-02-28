@@ -21,14 +21,13 @@ module AtomicCache
         @store
       end
 
-      def store_op(key, user_options=nil)
+      def store_op(key, user_options={})
         if !key.present?
           desc = if key.nil? then 'Nil' else 'Empty' end
           raise ArgumentError.new("#{desc} key given for storage operation") unless key.present?
         end
 
         normalized_key = key.to_sym
-        user_options ||= {}
         yield(normalized_key, user_options)
       end
 

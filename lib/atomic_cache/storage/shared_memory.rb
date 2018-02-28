@@ -26,10 +26,8 @@ module AtomicCache
         STORE
       end
 
-      def store_op(key, user_options=nil)
+      def store_op(key, user_options={})
         normalized_key = key.to_sym
-        user_options ||= {}
-
         SEMAPHORE.synchronize do
           yield(normalized_key, user_options)
         end

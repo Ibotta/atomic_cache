@@ -26,6 +26,18 @@ module AtomicCache
       # returns true if it succeeds; false otherwise
       def delete(key, user_options); raise NotImplementedError end
 
+      protected
+
+      def marshal(value, user_options={})
+        return value if user_options[:raw]
+        Marshal.dump(value)
+      end
+
+      def unmarshal(value, user_options={})
+        return value if user_options[:raw]
+        Marshal.load(value)
+      end
+
     end
   end
 end

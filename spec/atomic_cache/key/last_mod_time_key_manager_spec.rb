@@ -42,22 +42,22 @@ describe 'LastModTimeKeyManager' do
 
   it 'promotes a timestamp and last known key' do
     subject.promote(req_keyspace, last_known_key: 'asdf', timestamp: timestamp)
-    expect(storage.store[:'ns:lkk'][:value]).to eq('asdf')
-    expect(storage.store[:'ts:lmt'][:value]).to eq(timestamp.to_s)
-    expect(subject.last_modified_time).to eq(timestamp.to_s)
+    expect(storage.read(:'ns:lkk')).to eq('asdf')
+    expect(storage.read(:'ts:lmt')).to eq(timestamp)
+    expect(subject.last_modified_time).to eq(timestamp)
   end
 
   context '#last_modified_time=' do
     it 'returns the last modified time' do
       subject.last_modified_time = timestamp
-      expect(storage.store[:'ts:lmt'][:value]).to eq(timestamp.to_s)
-      expect(subject.last_modified_time).to eq(timestamp.to_s)
+      expect(storage.read(:'ts:lmt')).to eq(timestamp)
+      expect(subject.last_modified_time).to eq(timestamp)
     end
 
     it 'formats Time' do
       now = Time.now
       subject.last_modified_time = now
-      expect(subject.last_modified_time).to eq(now.to_i.to_s)
+      expect(subject.last_modified_time).to eq(now.to_i)
     end
   end
 

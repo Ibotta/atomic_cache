@@ -19,7 +19,7 @@ describe 'Dalli' do
   end
 
   it 'delegates #read without options' do
-    expect(dalli_client).to receive(:read).with('key', {})
+    expect(dalli_client).to receive(:read).with('key', {}).and_return('asdf')
     subject.read('key')
   end
 

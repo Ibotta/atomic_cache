@@ -37,8 +37,7 @@ module AtomicCache
     # @option options [Numeric] :max_retries (5) Max times to rety in waiting case
     # @option options [Numeric] :backoff_duration_ms (50) Duration in ms to wait between retries
     # @yield Generates a new value when cache is expired
-    def fetch(keyspace, options=nil)
-      options ||= {}
+    def fetch(keyspace, options={})
       key = @timestamp_manager.current_key(keyspace)
       tags = ["cache_keyspace:#{keyspace.root}"]
 

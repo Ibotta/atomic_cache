@@ -44,7 +44,7 @@ describe 'AtomicCacheConcern' do
       time = Time.local(2018, 1, 1, 15, 30, 0)
       subject.expire_cache(time)
       expect(key_storage.store).to have_key(:'foo1:lmt')
-      expect(key_storage.store[:'foo1:lmt'][:value]).to eq(time.to_i.to_s)
+      expect(key_storage.read(:'foo1:lmt')).to eq(time.to_i)
     end
 
     it 'expires all the keyspaces for this class' do
