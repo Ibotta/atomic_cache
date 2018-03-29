@@ -100,7 +100,7 @@ module AtomicCache
     end
 
     def expire_cache(at=Time.now)
-      self.class.expire_cache(ns)
+      self.class.expire_cache(at)
     end
 
     def last_modified_time
