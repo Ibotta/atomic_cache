@@ -13,10 +13,6 @@ describe 'AtomicCacheConcern' do
       def example_method
         atomic_cache.fetch(cache_keyspace(:foo)) { 'bar' }
       end
-
-      def expire_cache_test
-        expire_cache
-      end
     end
     Foo1
   end
