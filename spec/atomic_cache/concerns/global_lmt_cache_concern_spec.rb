@@ -82,6 +82,13 @@ describe 'AtomicCacheConcern' do
         expect(ns2_value).to eq('new-buz')
       end
     end
+
+    it 'works on the instance method' do
+      time = Time.local(2018, 1, 1, 15, 30, 0)
+      subject.new.expire_cache(time)
+      expect(key_storage.store).to have_key(:'foo1:lmt')
+      expect(key_storage.read(:'foo1:lmt')).to eq(time.to_i)
+    end
   end
 
   context '#cache_keyspace' do

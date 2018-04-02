@@ -20,11 +20,11 @@ module AtomicCache
     # @param separator [String] character or string to separate keyspace segments
     # @param timestamp_formatter [Proc] function to turn Time -> String
     def initialize(namespace:, root: nil, separator: nil, timestamp_formatter: nil)
+      @timestamp_formatter = timestamp_formatter || DefaultConfig.instance.timestamp_formatter
+      @separator = separator || DefaultConfig.instance.separator
       @namespace = []
       @namespace = normalize_segments(namespace) if namespace.present?
-      @separator = separator || DefaultConfig.instance.separator
-      @timestamp_formatter = timestamp_formatter || DefaultConfig.instance.timestamp_formatter
-      @root = root || namespace.last
+      @root = root || @namespace.last
     end
 
     # Create a new Keyspace, extending the namespace with the given segments and
@@ -70,7 +70,7 @@ module AtomicCache
     def normalize_segments(segments)
       if segments.is_a? Array
         segments.map { |seg| expand_segment(seg) }
-      elsif sgs.nil?
+      elsif segments.nil?
         []
       else
         [expand_segment(segments)]
