@@ -81,7 +81,7 @@ module AtomicCache
       case segment
         when Symbol, String, Numeric
           segment
-        when DateTime, Time, Date
+        when DateTime, Time
           @timestamp_formatter.call(segment)
         else
           hexhash(segment)

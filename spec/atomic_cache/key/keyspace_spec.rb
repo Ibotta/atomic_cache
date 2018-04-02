@@ -38,7 +38,7 @@ describe 'Keyspace' do
 
       it 'expands timestamps' do
         formatter = Proc.new { |t| 'formatted' }
-        ks = AtomicCache::Keyspace.new(namespace: Date.new, timestamp_formatter: formatter)
+        ks = AtomicCache::Keyspace.new(namespace: Time.new, timestamp_formatter: formatter)
         expect(ks.namespace).to eq(['formatted'])
       end
     end
