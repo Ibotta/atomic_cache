@@ -11,7 +11,7 @@ Tasks
 * [ ] [Code of Conduct](https://github.com/Ibotta/atomic_cache/blob/master/CODE_OF_CONDUCT.md) reviewed
 * [ ] Specs written and passing
 * [ ] Backwards-incompatible changes called out in this PR
-* [ ] Increment the version file (`./lib/atomic_cache/version.rb`) when applicable.
+* [ ] Increment the version file (`./lib/atomic_cache/version.rb`) when applicable
     * See [semver.org](https://semver.org/) for what segment to increment
 
 /cc
