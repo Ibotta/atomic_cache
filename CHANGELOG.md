@@ -1,8 +1,21 @@
 # Change Log
 
-## [0.2.0.rc1](https://github.com/Ibotta/atomic_cache/tree/0.2.0.rc1) (2018-02-28)
+## [0.2.0.rc2](https://github.com/Ibotta/atomic_cache/tree/0.2.0.rc2) (2018-04-03)
 
-[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/0.1.0.rc2...0.2.0.rc1)
+[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.2.0.rc1...0.2.0.rc2)
+
+**Fixed bugs:**
+
+- sgs is undefined [\#12](https://github.com/Ibotta/atomic_cache/issues/12)
+- Bugfix/sgs [\#13](https://github.com/Ibotta/atomic_cache/pull/13) ([tstone](https://github.com/tstone))
+
+**Merged pull requests:**
+
+- Bumped version to 0.2.0.rc2 [\#14](https://github.com/Ibotta/atomic_cache/pull/14) ([tstone](https://github.com/tstone))
+
+## [v0.2.0.rc1](https://github.com/Ibotta/atomic_cache/tree/v0.2.0.rc1) (2018-02-28)
+
+[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/0.1.0.rc2...v0.2.0.rc1)
 
 **Implemented enhancements:**
 
