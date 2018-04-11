@@ -13,10 +13,3 @@ Tasks
 * [ ] Backwards-incompatible changes called out in this PR
 * [ ] Increment the version file (`./lib/atomic_cache/version.rb`) when applicable
     * See [semver.org](https://semver.org/) for what segment to increment
-
-/cc
------
-
-@mention any specific individuals you'd like to be aware of this change:
-  * Who is impacted by the work?
-  * Who knows this code best and can provide useful feedback?
