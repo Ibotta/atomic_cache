@@ -3,12 +3,12 @@ language: ruby
 jobs:
   include:
     - stage: test-2.4
-      rvm: 2.4.3
+      rvm: 2.4.4
       script:
         - bundle exec rake spec
 
     - stage: test-2.5
-      rvm: 2.5.0
+      rvm: 2.5.1
       before_script:
         - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
         - chmod +x ./cc-test-reporter
