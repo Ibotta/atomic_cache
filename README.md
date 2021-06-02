@@ -1,6 +1,6 @@
 # atomic_cache Gem
 [![Gem Version](https://badge.fury.io/rb/atomic_cache.svg)](https://badge.fury.io/rb/atomic_cache)
-[![Build Status](https://travis-ci.org/Ibotta/atomic_cache.svg?branch=master)](https://travis-ci.org/Ibotta/atomic_cache)
+[![Build Status](https://travis-ci.org/Ibotta/atomic_cache.svg?branch=main)](https://travis-ci.org/Ibotta/atomic_cache)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/790faad5866d2a00ca6c/test_coverage)](https://codeclimate.com/github/Ibotta/atomic_cache/test_coverage)
 
 ## User Documentation
@@ -50,7 +50,7 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/ibotta
 ## Releasing
 
 Releases are automatically handled via the Travis CI build. When a version greater than
-the version published on rubygems.org is pushed to the `master` branch, Travis will:
+the version published on rubygems.org is pushed to the `main` branch, Travis will:
 
 - re-generate the CHANGELOG file
 - tag the release with GitHub
