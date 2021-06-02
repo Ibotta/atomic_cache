@@ -1,6 +1,6 @@
 # atomic_cache Gem
 [![Gem Version](https://badge.fury.io/rb/atomic_cache.svg)](https://badge.fury.io/rb/atomic_cache)
-[![Build Status](https://travis-ci.org/Ibotta/atomic_cache.svg?branch=main)](https://travis-ci.org/Ibotta/atomic_cache)
+[![Build Status](https://travis-ci.com/Ibotta/atomic_cache.svg?branch=main)](https://travis-ci.com/Ibotta/atomic_cache)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/790faad5866d2a00ca6c/test_coverage)](https://codeclimate.com/github/Ibotta/atomic_cache/test_coverage)
 
 ## User Documentation
