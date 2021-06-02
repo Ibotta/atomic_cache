@@ -8,7 +8,7 @@ Add background information that will be helpful to reviewers:
 
 Tasks
 -----
-* [ ] [Code of Conduct](https://github.com/Ibotta/atomic_cache/blob/master/CODE_OF_CONDUCT.md) reviewed
+* [ ] [Code of Conduct](https://github.com/Ibotta/atomic_cache/blob/main/CODE_OF_CONDUCT.md) reviewed
 * [ ] Specs written and passing
 * [ ] Backwards-incompatible changes called out in this PR
 * [ ] Increment the version file (`./lib/atomic_cache/version.rb`) when applicable

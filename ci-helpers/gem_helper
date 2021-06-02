@@ -92,9 +92,9 @@ module AtomicCacheCi
       rake.load_rakefile
       rake['changelog'].invoke
 
-      # commit it to master
+      # commit it to main
       git = git_client
-      git.checkout('master')
+      git.checkout('main')
       git.reset
       git.add('CHANGELOG.md')
 
@@ -107,7 +107,7 @@ module AtomicCacheCi
       tag = "v#{local_version}"
       github.create_release("Ibotta/#{GEM_NAME}", tag,
         tag_name: tag,
-        target_commitish: 'master',
+        target_commitish: 'main',
         name: "atomic_cache release #{local_version}",
         body: "See [changelog](https://github.com/Ibotta/atomic_cache/blob/#{tag}/CHANGELOG.md)",
         prerelease: local_version.include?('.rc')
