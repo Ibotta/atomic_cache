@@ -2,13 +2,13 @@ language: ruby
 
 jobs:
   include:
-    - stage: test-2.4
-      rvm: 2.4
+    - stage: test-2.5
+      rvm: 2.5
       script:
         - bundle exec rake spec
 
-    - stage: test-2.5
-      rvm: 2.5
+    - stage: test-2.6
+      rvm: 2.6
       before_script:
         - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
         - chmod +x ./cc-test-reporter
