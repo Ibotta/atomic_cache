@@ -18,11 +18,6 @@ jobs:
       after_script:
         - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 
-    - stage: test-2.7
-      rvm: 2.7
-      script:
-        - bundle exec rake spec
-
     # Ideally the release pipeline `if` statements would check for the release commit
     # message, but this is not possible in Travis.
     # https://github.com/travis-ci/travis-ci/issues/8861#issuecomment-349037474
