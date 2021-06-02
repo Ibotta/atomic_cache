@@ -99,7 +99,7 @@ module AtomicCacheCi
       git.add('CHANGELOG.md')
 
       git.commit("#{RELEASE_COMMIT_PREFIX} #{local_version}")
-      git.push('deploy')
+      git.push('deploy', 'main')
     end
 
     def github_release

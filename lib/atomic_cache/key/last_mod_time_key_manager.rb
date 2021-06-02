@@ -55,6 +55,7 @@ module AtomicCache
     # @param ttl [Numeric] the duration in ms to lock (auto expires after duration is up)
     # @param options [Hash] options to pass to the storage adapter
     def lock(keyspace, ttl, options={})
+      # returns false if the key already exists
       @storage.add(keyspace.lock_key, LOCK_VALUE, ttl, options)
     end
 
