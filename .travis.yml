@@ -1,4 +1,10 @@
 language: ruby
+
+addons:
+  apt:
+    packages:
+    - sshpass
+
 jobs:
   include:
   - stage: test-2.5
