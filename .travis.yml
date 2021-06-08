@@ -25,7 +25,7 @@ jobs:
     - eval "$(ssh-agent -s)"
     - chmod 600 atomic_cache_deploy
     - mv atomic_cache_deploy ~/.ssh/id_rsa
-    - ssh-add ~/.ssh/id_rsa <(echo "$PASSPHRASE")
+    - sshpass -p $PASSPHRASE ssh-add ~/.ssh/id_rsa
     - git config --global user.email "deploy-bot@ibotta.com"
     - git config --global user.name "Deploy Bot"
     - git remote add deploy ssh://git@github.com/Ibotta/atomic_cache.git
