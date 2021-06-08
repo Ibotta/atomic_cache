@@ -1,42 +1,36 @@
 language: ruby
-
 jobs:
   include:
-    - stage: test-2.5
-      rvm: 2.5
-      script:
-        - bundle exec rake spec
-
-    - stage: test-2.6
-      rvm: 2.6
-      before_script:
-        - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-        - chmod +x ./cc-test-reporter
-        - ./cc-test-reporter before-build
-      script:
-        - bundle exec rake spec
-      after_script:
-        - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
-
-    # Ideally the release pipeline `if` statements would check for the release commit
-    # message, but this is not possible in Travis.
-    # https://github.com/travis-ci/travis-ci/issues/8861#issuecomment-349037474
-    - stage: tag-new-release-if-applicable
-      if: branch = main AND type != pull_request # see additional conditions in gem_helper
-      rvm: 2.6
-      before_script:
-        - openssl aes-256-cbc -K $encrypted_bfd358de8814_key -iv $encrypted_bfd358de8814_iv -in ./ci-helpers/atomic_cache_deploy.enc -out atomic_cache_deploy -d
-        - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-        - chmod 600 atomic_cache_deploy
-        - mv atomic_cache_deploy ~/.ssh/id_rsa
-        - git config --global user.email "deploy-bot@ibotta.com"
-        - git config --global user.name "Deploy Bot"
-        - git remote add deploy ssh://git@github.com/Ibotta/atomic_cache.git
-      script:
-        - ./ci-helpers/gem_helper kickoff_release_pipeline
-
-    - stage: publish-gem-if-applicable
-      if: branch = main AND type != pull_request # see additional conditions in gem_helper
-      rvm: 2.6
-      script:
-        - ./ci-helpers/gem_helper publish
+  - stage: test-2.5
+    rvm: 2.5
+    script:
+    - bundle exec rake spec
+  - stage: test-2.6
+    rvm: 2.6
+    before_script:
+    - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
+      > ./cc-test-reporter
+    - chmod +x ./cc-test-reporter
+    - "./cc-test-reporter before-build"
+    script:
+    - bundle exec rake spec
+    after_script:
+    - "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"
+  - stage: tag-new-release-if-applicable
+    if: branch = main AND type != pull_request
+    rvm: 2.6
+    before_script:
+    - openssl aes-256-cbc -K $encrypted_3b12ef27616a_key -iv $encrypted_3b12ef27616a_iv -in ./ci-helpers/atomic_cache_deploy.enc -out atomic_cache_deploy -d
+    - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+    - chmod 600 atomic_cache_deploy
+    - mv atomic_cache_deploy ~/.ssh/id_rsa
+    - git config --global user.email "deploy-bot@ibotta.com"
+    - git config --global user.name "Deploy Bot"
+    - git remote add deploy ssh://git@github.com/Ibotta/atomic_cache.git
+    script:
+    - "./ci-helpers/gem_helper kickoff_release_pipeline"
+  - stage: publish-gem-if-applicable
+    if: branch = main AND type != pull_request
+    rvm: 2.6
+    script:
+    - "./ci-helpers/gem_helper publish"  
