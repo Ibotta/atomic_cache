@@ -1,8 +1,8 @@
 # Changelog
 
-## [0.2.0.rc3](https://github.com/Ibotta/atomic_cache/tree/0.2.0.rc3) (2021-06-09)
+## [v0.2.0.rc3](https://github.com/Ibotta/atomic_cache/tree/v0.2.0.rc3) (2021-06-09)
 
-[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.2.0.rc2...0.2.0.rc3)
+[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.2.0.rc2...v0.2.0.rc3)
 
 **Merged pull requests:**
 
