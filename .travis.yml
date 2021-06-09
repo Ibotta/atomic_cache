@@ -36,3 +36,4 @@ jobs:
     rvm: 2.6
     script:
     - "./ci-helpers/gem_helper publish"
+
