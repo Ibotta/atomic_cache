@@ -22,7 +22,7 @@ jobs:
     if: branch = main AND type != pull_request
     rvm: 2.6
     before_script:
-    - openssl aes-256-cbc -K $encrypted_3b12ef27616a_key -iv $encrypted_3b12ef27616a_iv -in ./ci-helper/atomic_cache_deploy.enc -out atomic_cache_deploy -d
+    - openssl aes-256-cbc -K $encrypted_3b12ef27616a_key -iv $encrypted_3b12ef27616a_iv -in ./ci-helpers/atomic_cache_deploy.enc -out atomic_cache_deploy -d
     - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
     - chmod 600 atomic_cache_deploy
     - mv atomic_cache_deploy ~/.ssh/id_rsa
