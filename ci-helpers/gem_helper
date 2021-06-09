@@ -87,17 +87,20 @@ module AtomicCacheCi
 
     def create_release_commit
       # generate the changelog
+      puts "Generating changelog"
       rake = Rake.application
       rake.init
       rake.load_rakefile
       rake['changelog'].invoke
 
       # commit it to main
+      puts "Creating changelog commit"
       git = git_client
       git.checkout('main')
       git.reset
       git.add('CHANGELOG.md')
 
+      puts "Committing changelog to git"
       git.commit("#{RELEASE_COMMIT_PREFIX} #{local_version}")
       git.push('deploy', 'main')
     end
