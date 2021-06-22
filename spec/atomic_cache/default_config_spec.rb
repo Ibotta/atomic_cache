@@ -10,8 +10,13 @@ describe 'DefaultConfig' do
       subject.configure do |manager|
         manager.namespace = 'foo'
       end
-
       expect(subject.instance.namespace).to eq('foo')
+
+      # change it a 2nd time to make sure it sticks
+      subject.configure do |manager|
+        manager.namespace = 'bar'
+      end
+      expect(subject.instance.namespace).to eq('bar')
     end
   end
 end
