@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.1.rc2](https://github.com/Ibotta/atomic_cache/tree/0.2.1.rc2) (2021-06-22)
+
+[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.2.1.rc1...0.2.1.rc2)
+
+**Merged pull requests:**
+
+- minor maintenance [\#18](https://github.com/Ibotta/atomic_cache/pull/18) ([tstone](https://github.com/tstone))
+
+## [v0.2.1.rc1](https://github.com/Ibotta/atomic_cache/tree/v0.2.1.rc1) (2021-06-09)
+
+[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.2.0.rc3...v0.2.1.rc1)
+
 ## [v0.2.0.rc3](https://github.com/Ibotta/atomic_cache/tree/v0.2.0.rc3) (2021-06-09)
 
 [Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.2.0.rc2...v0.2.0.rc3)
