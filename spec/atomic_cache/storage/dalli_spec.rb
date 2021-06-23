@@ -13,13 +13,20 @@ describe 'Dalli' do
   let(:dalli_client) { FakeDalli.new }
   subject { AtomicCache::Storage::Dalli.new(dalli_client) }
 
-  it 'delegates #set without options' do
-    expect(dalli_client).to receive(:set).with('key', 'value', {})
-    subject.set('key', 'value')
+  context '#set' do
+    it 'delegates #set without options' do
+      expect(dalli_client).to receive(:set).with('key', 'value', nil, {})
+      subject.set('key', 'value')
+    end
+
+    it 'delegates #set with TTL' do
+      expect(dalli_client).to receive(:set).with('key', 'value', 500, {})
+      subject.set('key', 'value', { ttl: 500 })
+    end
   end
 
   it 'delegates #read without options' do
-    expect(dalli_client).to receive(:read).with('key', {}).and_return('asdf')
+    expect(dalli_client).to receive(:get).with('key', {}).and_return('asdf')
     subject.read('key')
   end
 

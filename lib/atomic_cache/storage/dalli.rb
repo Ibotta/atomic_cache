@@ -32,11 +32,13 @@ module AtomicCache
       end
 
       def read(key, user_options={})
-        @dalli_client.read(key, user_options)
+        @dalli_client.get(key, user_options)
       end
 
       def set(key, value, user_options={})
-        @dalli_client.set(key, value, user_options)
+        ttl = user_options[:ttl]
+        user_options.delete(:ttl)
+        @dalli_client.set(key, value, ttl, user_options)
       end
 
     end
