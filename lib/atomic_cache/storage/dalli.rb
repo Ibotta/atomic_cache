@@ -33,7 +33,7 @@ module AtomicCache
       def set(key, value, user_options={})
         ttl = user_options[:ttl]
         user_options.delete(:ttl)
-        @dalli_client.set(key, value, ttl, user_options)
+        !!@dalli_client.set(key, value, ttl, user_options)
       end
 
     end
