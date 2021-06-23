@@ -37,7 +37,7 @@ describe 'Dalli' do
 
   context '#add' do
     before(:each) do
-      allow(dalli_client).to receive(:add).and_return('NOT_STORED\r\n')
+      allow(dalli_client).to receive(:add).and_return(false)
     end
 
     it 'delegates to #add with the raw option set' do
@@ -47,22 +47,17 @@ describe 'Dalli' do
     end
 
     it 'returns true when the add is successful' do
-      expect(dalli_client).to receive(:add).and_return('STORED\r\n')
+      expect(dalli_client).to receive(:add).and_return(12339031748204560384)
       result = subject.add('key', 'value', 100)
       expect(result).to eq(true)
     end
 
     it 'returns false if the key already exists' do
-      expect(dalli_client).to receive(:add).and_return('EXISTS\r\n')
+      expect(dalli_client).to receive(:add).and_return(false)
       result = subject.add('key', 'value', 100)
       expect(result).to eq(false)
     end
 
-    it 'returns false if the add fails' do
-      expect(dalli_client).to receive(:add).and_return('NOT_STORED\r\n')
-      result = subject.add('key', 'value', 100)
-      expect(result).to eq(false)
-    end
   end
 
 end
