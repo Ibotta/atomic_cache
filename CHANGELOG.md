@@ -1,8 +1,16 @@
 # Changelog
 
-## [0.2.2.rc1](https://github.com/Ibotta/atomic_cache/tree/0.2.2.rc1) (2021-06-23)
+## [0.2.3.rc1](https://github.com/Ibotta/atomic_cache/tree/0.2.3.rc1) (2021-06-23)
 
-[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.2.1.rc2...0.2.2.rc1)
+[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.2.2.rc1...0.2.3.rc1)
+
+**Merged pull requests:**
+
+- BUG: Dalli Client response codes [\#20](https://github.com/Ibotta/atomic_cache/pull/20) ([tstone](https://github.com/tstone))
+
+## [v0.2.2.rc1](https://github.com/Ibotta/atomic_cache/tree/v0.2.2.rc1) (2021-06-23)
+
+[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.2.1.rc2...v0.2.2.rc1)
 
 **Fixed bugs:**
 
