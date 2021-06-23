@@ -21,6 +21,14 @@ end
 
 In addition to the below options, any other options given (e.g. `expires_in`, `cache_nils`) are passed through to the underlying storage adapter.  This allows storage-specific options to be passed through (reference: [Dalli config](https://github.com/petergoldstein/dalli#configuration)).
 
+#### TTL
+Various storage clients require TTL to be expressed in different ways. The included storage adapters will unwrap the `ttl` option to an storage-specific representation.
+```ruby
+atomic_cache.fetch(ttl: 500) do
+  # generate block
+end
+```
+
 #### `generate_ttl_ms`
 _Defaults to 30 seconds._
 
