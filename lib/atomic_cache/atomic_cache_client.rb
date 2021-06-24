@@ -59,7 +59,7 @@ module AtomicCache
 
       # quick check back to see if the other process has finished
       # or fall back to the last known value
-      value = quick_retry(keyspace, options, tags) || last_known_value(keyspace, options, tags)
+      value = quick_retry(key, options, tags) || last_known_value(keyspace, options, tags)
       return value if value.present?
 
       # wait for the other process if a last known value isn't there
@@ -109,10 +109,8 @@ module AtomicCache
       nil
     end
 
-    def quick_retry(keyspace, options, tags)
-      key = @timestamp_manager.current_key(keyspace)
+    def quick_retry(key, options, tags)
       duration = option(:quick_retry_ms, options, DEFAULT_quick_retry_ms)
-
       if duration.present? and key.present?
         sleep(duration.to_f / 1000)
         value = @storage.read(key, options)
