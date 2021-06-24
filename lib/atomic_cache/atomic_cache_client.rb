@@ -45,6 +45,7 @@ module AtomicCache
       value = @storage.read(key, options) if key.present?
       if !value.nil?
         metrics(:increment, 'read.present', tags: tags)
+        log(:debug, "Read value from key: '#{key}'")
         return value
       end
 
@@ -136,6 +137,7 @@ module AtomicCache
         # last known key may have expired
         if !lkv.nil?
           metrics(:increment, 'last-known-value.present', tags: tags)
+          log(:debug, "Read value from last known value key: '#{lkk}'")
           return lkv
         end
 
