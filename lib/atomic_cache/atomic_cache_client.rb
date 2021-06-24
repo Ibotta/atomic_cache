@@ -27,7 +27,6 @@ module AtomicCache
       raise ArgumentError.new("`storage` required but none given") unless @storage.present?
     end
 
-
     # Attempts to fetch the given keyspace, using an optional block to generate
     # a new value when the cache is expired
     #
@@ -66,7 +65,7 @@ module AtomicCache
       # wait for the other process if a last known value isn't there
       if key.present?
         return time('wait.run', tags: tags) do
-          wait_for_new_value(key, options, tags)
+          wait_for_new_value(keyspace, options, tags)
         end
       end
 
@@ -151,7 +150,7 @@ module AtomicCache
       nil
     end
 
-    def wait_for_new_value(key, options, tags)
+    def wait_for_new_value(keyspace, options, tags)
       max_retries = option(:max_retries, options, DEFAULT_MAX_RETRIES)
       max_retries.times do |attempt|
         metrics_tags = tags.clone.push("attempt:#{attempt}")
@@ -162,6 +161,8 @@ module AtomicCache
         backoff_duration_ms = option(:backoff_duration_ms, options, backoff_duration_ms)
         sleep((backoff_duration_ms.to_f / 1000) * attempt)
 
+        # re-fetch the key each time, to make sure we're actually getting the latest key with the correct LMT
+        key = @timestamp_manager.current_key(keyspace)
         value = @storage.read(key, options)
         if !value.nil?
           metrics(:increment, 'wait.present', tags: metrics_tags)
