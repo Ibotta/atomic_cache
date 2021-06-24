@@ -171,7 +171,7 @@ module AtomicCache
       end
 
       metrics(:increment, 'wait.give-up')
-      log(:warn, "Giving up fetching cache key `#{key}`. Exceeded max retries (#{max_retries}).")
+      log(:warn, "Giving up waiting. Exceeded max retries (#{max_retries}).")
       nil
     end
 
