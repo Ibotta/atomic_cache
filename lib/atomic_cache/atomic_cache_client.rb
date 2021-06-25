@@ -85,6 +85,14 @@ module AtomicCache
       generate_ttl_ms = option(:generate_ttl_ms, options, DEFAULT_GENERATE_TIME_MS).to_f / 1000
       if @timestamp_manager.lock(keyspace, generate_ttl_ms, options)
         lmt = Time.now
+
+        # Here: there's no cached value and there's a lock for a given keyspace applied
+        # promote a last_known_key to the keyspace before doing work
+        # otherwise no lkk exists and the waiting processes will create new
+        # keys and a lock wont be observed while this first yeild is working
+        new_key = @timestamp_manager.next_key(keyspace, lmt)
+        @timestamp_manager.promote(keyspace, last_known_key: new_key, timestamp: lmt)
+
         new_value = yield
 
         if new_value.nil?
@@ -95,8 +103,6 @@ module AtomicCache
           return nil
         end
 
-        new_key = @timestamp_manager.next_key(keyspace, lmt)
-        @timestamp_manager.promote(keyspace, last_known_key: new_key, timestamp: lmt)
         @storage.set(new_key, new_value, options)
 
         metrics(:increment, 'generate.current-thread', tags: tags)
