@@ -10,9 +10,14 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Ibotta Developers', 'Titus Stone']
   spec.email         = 'osscompliance@ibotta.com'
 
-  spec.summary       = 'summary'
-  spec.description   = 'desc'
-
+  spec.description   = 'A gem which prevents the thundering herd problem through a distributed lock'
+  spec.summary       = 'In a nutshell:'\
+  '* The key of every cached value includes a timestamp'\
+  '* Once a cache key is written to, it is never written over'\
+  '* When a newer version of a cached value is available, it is written to a new key'\
+  '* When a new value is being generated for a new key only 1 process is allowed to do so at a time'\
+  '* While the new value is being generated, other processes read one key older than most recent'\
+  
   spec.licenses      = ['Apache-2.0']
   spec.homepage      = 'https://github.com/ibotta/atomic_cache'
 
