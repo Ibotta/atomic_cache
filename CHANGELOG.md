@@ -1,8 +1,20 @@
 # Changelog
 
-## [0.2.4.rc1](https://github.com/Ibotta/atomic_cache/tree/0.2.4.rc1) (2021-06-24)
+## [0.2.5.rc1](https://github.com/Ibotta/atomic_cache/tree/0.2.5.rc1) (2021-06-28)
 
-[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.2.3.rc1...0.2.4.rc1)
+[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.2.4.rc1...0.2.5.rc1)
+
+**Implemented enhancements:**
+
+- Added a description and summary [\#26](https://github.com/Ibotta/atomic_cache/pull/26) ([tstone](https://github.com/tstone))
+
+**Fixed bugs:**
+
+- BUG: Waiting on wrong key [\#24](https://github.com/Ibotta/atomic_cache/pull/24) ([tstone](https://github.com/tstone))
+
+## [v0.2.4.rc1](https://github.com/Ibotta/atomic_cache/tree/v0.2.4.rc1) (2021-06-24)
+
+[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.2.3.rc1...v0.2.4.rc1)
 
 **Merged pull requests:**
 
