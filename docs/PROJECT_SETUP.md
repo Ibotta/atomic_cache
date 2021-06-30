@@ -23,9 +23,10 @@ AtomicCache::DefaultConfig.configure do |config|
   config.metrics = Datadog::Statsd.new('localhost', 8125, namespace: 'cache.atomic')
 
   # note: these values can also be set in an env file for env-specific settings
-  config.namespace      = 'atom'
-  config.cache_storage  = AtomicCache::Storage::SharedMemory.new
-  config.key_storage    = AtomicCache::Storage::SharedMemory.new
+  config.namespace        = 'atom'
+  config.default_options  = { generate_ttl_ms: 500 }
+  config.cache_storage    = AtomicCache::Storage::SharedMemory.new
+  config.key_storage      = AtomicCache::Storage::SharedMemory.new
 end
 ```
 
@@ -36,7 +37,7 @@ Note that `Datadog::Statsd` is not _required_.  Adding it, however, will enable 
   * `key_storage` - Storage adapter for key manager (see below)
 
 #### Optional
-  * `default_options` - Default options for every fetch call.  See [fetch options](/Ibotta/atomic_cache/blob/main/docs/USAGE.md#fetch).
+  * `default_options` - Override default options for every fetch call, unless specified at call site.  See [fetch options](/Ibotta/atomic_cache/blob/main/docs/USAGE.md#fetch).
   * `logger` - Logger instance.  Used for debug and warn logs. Defaults to nil.
   * `timestamp_formatter` - Proc to format last modified time for storage. Defaults to timestamp (`Time.to_i`)
   * `metrics` - Metrics instance. Defaults to nil.
