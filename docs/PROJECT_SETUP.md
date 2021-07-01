@@ -61,7 +61,7 @@ config.cache_store_options = {
   # ...
 }
 
-# config/environments/staging
+# config/environments/production
 config.memcache_hosts = [ "prod1.host.cache.amazonaws.com", "prod2.host.cache.amazonaws.com" ]
 config.cache_store_options = {
   expires_in: 1.hour,
