@@ -104,12 +104,12 @@ describe 'AtomicCacheConcern' do
       class Foo2
         include AtomicCache::GlobalLMTCacheConcern
         cache_version(3)
-        cache_class('foo')
+        force_cache_class('foo')
       end
       Foo2
     end
 
-    it 'uses the given version and cache_class become part of the cache keyspace' do
+    it 'uses the given version and force_cache_class become part of the cache keyspace' do
       subject.expire_cache
       expect(key_storage.store).to have_key(:'foo:v3:lmt')
     end

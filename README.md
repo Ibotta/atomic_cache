@@ -23,7 +23,7 @@ In a nutshell:
 class Foo < ActiveRecord::Base
   include AtomicCache::GlobalLMTCacheConcern
 
-  cache_class(:custom_foo)  # optional
+  force_cache_class(:custom_foo)  # optional
   cache_version(5)          # optional
 
   def active_foos(ids)
