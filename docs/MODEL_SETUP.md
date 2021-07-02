@@ -7,13 +7,13 @@ class Foo < ActiveRecord::Base
 end
 ```
 
-### cache_class
+### force_cache_class
 By default the cache identifier for a class is set to the name of a class (ie. `self.to_s`).  In some cases it makes sense to set a custom value for the cache identifier.  In cases where a custom cache identifier is set, it's important that the identifier remain unique across the project.
 
 ```ruby
 class SuperDescriptiveDomainModelAbstractFactoryImplManager < ActiveRecord::Base
   include AtomicCache::GlobalLMTCacheConcern
-  cache_class('sddmafim')
+  force_cache_class('sddmafim')
 end
 ```
 

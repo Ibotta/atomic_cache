@@ -26,7 +26,7 @@ module AtomicCache
         end
       end
 
-      def cache_class(kls)
+      def force_cache_class(kls)
         ATOMIC_CACHE_CONCERN_MUTEX.synchronize do
           @atomic_cache_class = kls
         end
