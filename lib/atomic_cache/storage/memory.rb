@@ -16,7 +16,7 @@ module AtomicCache
 
       def add(raw_key, new_value, ttl, user_options={})
         store_op(raw_key, user_options) do |key, options|
-          return false if store.has_key?(key)
+          return false if store.has_key?(key) && !ttl_expired?(store[key])
           write(key, new_value, ttl, user_options)
         end
       end
@@ -29,8 +29,7 @@ module AtomicCache
           unmarshaled = unmarshal(entry[:value], user_options)
           return unmarshaled if entry[:ttl].nil? or entry[:ttl] == false
 
-          life = Time.now - entry[:written_at]
-          if (life >= entry[:ttl])
+          if ttl_expired?(entry)
             store.delete(key)
             nil
           else
@@ -53,6 +52,12 @@ module AtomicCache
       end
 
       protected
+
+      def ttl_expired?(entry)
+        return false unless entry
+        life = Time.now - entry[:written_at]
+        life >= entry[:ttl]
+      end
 
       def write(key, value, ttl=nil, user_options)
         store[key] = {

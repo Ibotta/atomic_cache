@@ -17,17 +17,34 @@ shared_examples 'memory storage' do
       expect(result).to eq(true)
     end
 
-    it 'does not write the key if it exists' do
-      entry = { value: Marshal.dump('foo'), ttl: 100, written_at: 100 }
+    # SharedMemory.new.add("foo", ttl: 100)
+
+    it 'does not write the key if it exists but expiration time is NOT up' do
+      entry = { value: Marshal.dump('foo'), ttl: 5000, written_at: Time.local(2021, 1, 1, 12, 0, 0) }
       subject.store[:key] = entry
 
-      result = subject.add('key', 'value', 200)
-      expect(result).to eq(false)
+      Timecop.freeze(Time.local(2021, 1, 1, 12, 0, 1)) do
+        result = subject.add('key', 'value', 5000)
+        expect(result).to eq(false)
+      end
 
       # stored values should not have changed
       expect(subject.store).to have_key(:key)
       expect(Marshal.load(subject.store[:key][:value])).to eq('foo')
-      expect(subject.store[:key][:ttl]).to eq(100)
+    end
+
+    it 'does write the key if it exists and expiration time IS up' do
+      entry = { value: Marshal.dump('foo'), ttl: 50, written_at: Time.local(2021, 1, 1, 12, 0, 0) }
+      subject.store[:key] = entry
+
+      Timecop.freeze(Time.local(2021, 1, 1, 12, 30, 0)) do
+        result = subject.add('key', 'value', 50)
+        expect(result).to eq(true)
+      end
+
+      # stored values should not have changed
+      expect(subject.store).to have_key(:key)
+      expect(Marshal.load(subject.store[:key][:value])).to eq('value')
     end
   end
 
