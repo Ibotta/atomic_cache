@@ -6,7 +6,6 @@ require 'active_support/core_ext/hash'
 module AtomicCache
   class AtomicCacheClient
 
-    DEFAULT_quick_retry_ms = false
     DEFAULT_MAX_RETRIES = 5
     DEFAULT_GENERATE_TIME_MS = 30000 # 30 seconds
     BACKOFF_DURATION_MS = 50
@@ -32,7 +31,6 @@ module AtomicCache
     #
     # @param keyspace [AtomicCache::Keyspace] the keyspace to fetch
     # @option options [Numeric] :generate_ttl_ms (30000) Max generate duration in ms
-    # @option options [Numeric] :quick_retry_ms (false) Short duration to check back before using last known value
     # @option options [Numeric] :max_retries (5) Max times to rety in waiting case
     # @option options [Numeric] :backoff_duration_ms (50) Duration in ms to wait between retries
     # @yield Generates a new value when cache is expired
@@ -57,9 +55,8 @@ module AtomicCache
         return new_value unless new_value.nil?
       end
 
-      # quick check back to see if the other process has finished
-      # or fall back to the last known value
-      value = quick_retry(key, options, tags) || last_known_value(keyspace, options, tags)
+      # attempt to fall back to the last known value
+      value = last_known_value(keyspace, options, tags)
       return value if value.present?
 
       # wait for the other process if a last known value isn't there
@@ -106,22 +103,6 @@ module AtomicCache
       end
 
       metrics(:increment, 'generate.other-thread', tags: tags)
-      nil
-    end
-
-    def quick_retry(key, options, tags)
-      duration = option(:quick_retry_ms, options, DEFAULT_quick_retry_ms)
-      if duration.present? and key.present?
-        sleep(duration.to_f / 1000)
-        value = @storage.read(key, options)
-
-        if !value.nil?
-          metrics(:increment, 'empty-cache-retry.present', tags: tags)
-          return value
-        end
-        metrics(:increment, 'empty-cache-retry.not-present', tags: tags)
-      end
-
       nil
     end
 

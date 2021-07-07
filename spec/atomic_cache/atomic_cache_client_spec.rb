@@ -138,17 +138,6 @@ describe 'AtomicCacheClient' do
             timestamp_manager.lock(keyspace, 100)
           end
 
-          it 'waits for a short duration to see if the other thread generated the value' do
-            timestamp_manager.promote(keyspace, last_known_key: 'lkk', timestamp: 1420090000)
-            key_storage.set('lkk', 'old:value')
-            new_value = 'value from another thread'
-            allow(cache_storage).to receive(:read)
-              .with(timestamp_manager.current_key(keyspace), anything)
-              .and_return(nil, new_value)
-
-            expect(subject.fetch(keyspace, quick_retry_ms: 5) { 'value' }).to eq(new_value)
-          end
-
           context 'when the last known value is present' do
             it 'returns the last known value' do
               timestamp_manager.promote(keyspace, last_known_key: 'lkk', timestamp: 1420090000)
@@ -191,17 +180,6 @@ describe 'AtomicCacheClient' do
       end
 
       context 'and when a block is NOT given' do
-        it 'waits for a short duration to see if the other thread generated the value' do
-          timestamp_manager.promote(keyspace, last_known_key: 'asdf', timestamp: 1420090000)
-          new_value = 'value from another thread'
-          allow(cache_storage).to receive(:read)
-            .with(timestamp_manager.current_key(keyspace), anything)
-            .and_return(nil, new_value)
-
-          result = subject.fetch(keyspace, quick_retry_ms: 50)
-          expect(result).to eq(new_value)
-        end
-
         it 'returns nil if nothing is present' do
           expect(subject.fetch(keyspace)).to eq(nil)
         end
