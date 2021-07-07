@@ -1,8 +1,16 @@
 # Changelog
 
-## [0.4.0.rc1](https://github.com/Ibotta/atomic_cache/tree/0.4.0.rc1) (2021-07-07)
+## [0.4.1.rc1](https://github.com/Ibotta/atomic_cache/tree/0.4.1.rc1) (2021-07-07)
 
-[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.3.0.rc1...0.4.0.rc1)
+[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.4.0.rc1...0.4.1.rc1)
+
+**Merged pull requests:**
+
+- BUG: Correctly handle MemoryStorage\#add [\#31](https://github.com/Ibotta/atomic_cache/pull/31) ([tstone](https://github.com/tstone))
+
+## [v0.4.0.rc1](https://github.com/Ibotta/atomic_cache/tree/v0.4.0.rc1) (2021-07-07)
+
+[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.3.0.rc1...v0.4.0.rc1)
 
 **Merged pull requests:**
 
