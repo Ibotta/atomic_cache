@@ -1,8 +1,17 @@
 # Changelog
 
-## [0.3.0.rc1](https://github.com/Ibotta/atomic_cache/tree/0.3.0.rc1) (2021-07-02)
+## [0.4.0.rc1](https://github.com/Ibotta/atomic_cache/tree/0.4.0.rc1) (2021-07-07)
 
-[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.2.5.rc1...0.3.0.rc1)
+[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.3.0.rc1...0.4.0.rc1)
+
+**Merged pull requests:**
+
+- Remove quick\_retry feature [\#30](https://github.com/Ibotta/atomic_cache/pull/30) ([tstone](https://github.com/tstone))
+- Add fallback integration test [\#29](https://github.com/Ibotta/atomic_cache/pull/29) ([tstone](https://github.com/tstone))
+
+## [v0.3.0.rc1](https://github.com/Ibotta/atomic_cache/tree/v0.3.0.rc1) (2021-07-02)
+
+[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.2.5.rc1...v0.3.0.rc1)
 
 **Merged pull requests:**
 
