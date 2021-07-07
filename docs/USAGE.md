@@ -38,17 +38,6 @@ The ideal `generate_ttl_ms` time is just slightly longer than the average genera
 
 If metrics are enabled, the `<namespace>.generate.run` can be used to determine the min/max/average generate time for a particular cache and the `generate_ttl_ms` tuned using that.
 
-#### `quick_retry_ms`
-_`false` to disable. Defaults to false._
-
-In the case where another process is computing the new cache value, before falling back to the last known value, if `quick_retry_ms` has a value the atomic client will check the new cache once after the given duration (in milliseconds).
-
-The danger with `quick_retry_ms` is that when enabled it applies a delay to all fall-through requests at the cost of only benefitting some customers.  As the average generate block duration increases, the effectiveness of `quick_retry_ms` decreases because there is less of a likelihood that a customer will get a fresh value.  Consider the graph below.  For example, a cache with an average generate duration of 200ms, configured with a `quick_retry_ms` of 50ms (red) will only likely get a fresh value for 25% of customers.
-
-`quick_retry_ms` is most effective for caches that are quick to generate but whose values are slow to change.  `quick_retry_ms` is least effective for caches that are slow to update but quick to change.
-
-![quick_retry_ms graph](https://github.com/Ibotta/atomic_cache/raw/ca473f28e179da8c24f638eeeeb48750bc8cbe64/docs/img/quick_retry_graph.png)
-
 #### `max_retries` & `backoff_duration_ms`
 _`max_retries` defaults to 5._
 _`backoff_duration_ms` defaults to 50ms._
