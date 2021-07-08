@@ -17,4 +17,8 @@ RSpec.configure do |config|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
     expectations.syntax = :expect
   end
+
+  config.before(:each) do
+    AtomicCache::Storage::SharedMemory.enforce_ttl = true
+  end
 end
