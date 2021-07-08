@@ -72,6 +72,13 @@ All incoming keys are normalized to symbols.  All values are stored with a `valu
 
 It's likely preferable to use an environments file to configure the `key_storage` and `cache_storage` to always be an in-memory adapter when running in the test environment instead of manually configuring the storage adapter per spec.
 
+#### TTL in Tests
+In a test environment, unlike in a production environment, database queries are fast, and time doesn't elapse quite like it does in the real world. As tests get more complex, they perform changes for which they expect the cache to expire. However, because of the synthetic nature of testing, TTLs, particularly those on locks, don't quite work the same either.
+
+There are a few approaches to address this, for example, using `sleep` to cause real time to pass (not preferable) or wrapping each test in a TimeCop, forcing time to pass (works but quite manual).
+
+Since this situation is highly likely to arise, `atomic_cache` provides a feature to globally disable enforcing TTL on locks for the `SharedMemory` implementation. Set `enforce_ttl = false` to disable TTL checking on locks within SharedMemory in a test context. This will prevent tests from failing due to unexpired TTLs on locks. 
+
 #### ★ Testing Tip ★
 If using `SharedMemory` for integration style tests, a global `before(:each)` can be configured in `spec_helper.rb`.
 
@@ -79,9 +86,10 @@ If using `SharedMemory` for integration style tests, a global `before(:each)` ca
 # spec/spec_helper.rb
 RSpec.configure do |config|
 
-  #your other config
+  # your other config
 
   config.before(:each) do
+    AtomicCache::Storage::SharedMemory.enforce_ttl = false
     AtomicCache::Storage::SharedMemory.reset
   end
 end

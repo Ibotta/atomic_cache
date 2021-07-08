@@ -17,8 +17,6 @@ shared_examples 'memory storage' do
       expect(result).to eq(true)
     end
 
-    # SharedMemory.new.add("foo", ttl: 100)
-
     it 'does not write the key if it exists but expiration time is NOT up' do
       entry = { value: Marshal.dump('foo'), ttl: 5000, written_at: Time.local(2021, 1, 1, 12, 0, 0) }
       subject.store[:key] = entry

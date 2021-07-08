@@ -10,6 +10,21 @@ module AtomicCache
       STORE = {}
       SEMAPHORE = Mutex.new
 
+      @enforce_ttl = true
+      class << self
+        attr_accessor :enforce_ttl
+      end
+
+      def add(raw_key, new_value, ttl, user_options={})
+        if self.class.enforce_ttl
+          super(raw_key, new_value, ttl, user_options)
+        else
+          store_op(raw_key, user_options) do |key, options|
+            write(key, new_value, ttl, user_options)
+          end
+        end
+      end
+
       def self.reset
         STORE.clear
       end
