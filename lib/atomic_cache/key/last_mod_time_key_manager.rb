@@ -59,6 +59,13 @@ module AtomicCache
       @storage.add(keyspace.lock_key, LOCK_VALUE, ttl, options)
     end
 
+    # check if the keyspace is locked
+    #
+    # @param keyspace [AtomicCache::Keyspace] keyspace to lock
+    def lock_present?(keyspace)
+      @storage.read(keyspace.lock_key) == LOCK_VALUE
+    end
+
     # remove existing lock to allow other processes to update keyspace
     #
     # @param keyspace [AtomicCache::Keyspace] keyspace to lock
