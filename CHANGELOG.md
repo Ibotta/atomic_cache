@@ -1,8 +1,16 @@
 # Changelog
 
-## [0.5.0.rc1](https://github.com/Ibotta/atomic_cache/tree/0.5.0.rc1) (2021-07-08)
+## [0.5.1.rc1](https://github.com/Ibotta/atomic_cache/tree/0.5.1.rc1) (2021-07-12)
 
-[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.4.1.rc1...0.5.0.rc1)
+[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.5.0.rc1...0.5.1.rc1)
+
+**Merged pull requests:**
+
+- Clearer metrics Without LKK Delete [\#33](https://github.com/Ibotta/atomic_cache/pull/33) ([tstone](https://github.com/tstone))
+
+## [v0.5.0.rc1](https://github.com/Ibotta/atomic_cache/tree/v0.5.0.rc1) (2021-07-08)
+
+[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.4.1.rc1...v0.5.0.rc1)
 
 **Merged pull requests:**
 
