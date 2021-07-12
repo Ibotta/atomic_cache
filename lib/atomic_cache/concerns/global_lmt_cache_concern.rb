@@ -63,6 +63,11 @@ module AtomicCache
         @timestamp_manager.last_modified_time
       end
 
+      def lock_present?(keyspace)
+        init_atomic_cache
+        @timestamp_manager.lock_present?(keyspace)
+      end
+
       private
 
       def init_atomic_cache

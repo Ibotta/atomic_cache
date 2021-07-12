@@ -99,6 +99,21 @@ describe 'AtomicCacheConcern' do
     end
   end
 
+  context '#lock_present' do
+    it 'checks for a lock on a given keyspace' do
+      ks = subject.cache_keyspace(:fuz, :baz)
+      lock = subject.lock_present?(ks)
+      expect(ks.namespace).to eq(['foo1', :fuz, :baz])
+      expect(lock).to eq(false)
+    end
+    it 'checks for a lock on a given keyspace' do
+      ks = subject.cache_keyspace(:fuz, :baz)
+      lock = subject.lock_present?(ks)
+      expect(ks.namespace).to eq(['foo1', :fuz, :baz])
+      expect(lock).to eq(false)
+    end
+  end
+
   context 'keyspace macros' do
     subject do
       class Foo2
