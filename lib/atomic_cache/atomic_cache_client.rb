@@ -119,13 +119,11 @@ module AtomicCache
           return lkv
         end
 
-        # if the value of the last known key is nil, we can infer that it's
-        # most likely expired, thus remove it so other processes don't waste
-        # time trying to read it
-        @storage.delete(lkk)
+        metrics(:increment, 'last-known-value.nil', tags: tags)
+      else
+        metrics(:increment, 'last-known-value.not-present', tags: tags)
       end
 
-      metrics(:increment, 'last-known-value.not-present', tags: tags)
       nil
     end
 
