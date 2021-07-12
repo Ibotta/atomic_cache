@@ -100,13 +100,13 @@ describe 'AtomicCacheConcern' do
   end
 
   context '#lock_present' do
-    it 'checks for a lock on a given keyspace' do
+    it 'returns false when no lock is present' do
       ks = subject.cache_keyspace(:fuz, :baz)
       lock = subject.lock_present?(ks)
 
       expect(lock).to eq(false)
     end
-    it 'checks for a lock on a given keyspace' do
+    it 'returns true when any lock is present on the keyspace' do
       ks = subject.cache_keyspace(:fuz, :baz)
       key_storage.add(ks.lock_key, 1, 100)
       lock = subject.lock_present?(ks)
