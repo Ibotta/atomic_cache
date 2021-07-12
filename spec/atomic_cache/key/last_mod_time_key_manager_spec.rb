@@ -40,6 +40,15 @@ describe 'LastModTimeKeyManager' do
     expect(storage.store).to_not have_key(:'ns:lock')
   end
 
+  it 'checks if the lock is present' do
+    subject.lock(req_keyspace, 100)
+    expect(subject.lock_present?(req_keyspace)).to eq(true)
+  end
+
+  it 'checks if the lock is not present' do
+    expect(subject.lock_present?(req_keyspace)).to eq(false)
+  end
+
   it 'promotes a timestamp and last known key' do
     subject.promote(req_keyspace, last_known_key: 'asdf', timestamp: timestamp)
     expect(storage.read(:'ns:lkk')).to eq('asdf')

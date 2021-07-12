@@ -168,13 +168,6 @@ describe 'AtomicCacheClient' do
               result = subject.fetch(keyspace, backoff_duration_ms: 5) { 'value from generate' }
               expect(result).to eq(nil)
             end
-
-            it 'deletes the last known key' do
-              key_storage.set(keyspace.last_known_key_key, :oldkey)
-              cache_storage.set(:oldkey, nil)
-              subject.fetch(keyspace, backoff_duration_ms: 5) { 'value from generate' }
-              expect(cache_storage.store).to_not have_key(:oldkey)
-            end
           end
         end
       end
