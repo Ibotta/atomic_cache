@@ -93,8 +93,8 @@ module AtomicCache
         end
 
         new_key = @timestamp_manager.next_key(keyspace, lmt)
-        @timestamp_manager.promote(keyspace, last_known_key: new_key, timestamp: lmt)
         @storage.set(new_key, new_value, options)
+        @timestamp_manager.promote(keyspace, last_known_key: new_key, timestamp: lmt)
 
         metrics(:increment, 'generate.current-thread', tags: tags)
         log(:debug, "Generating new value for `#{new_key}`")
@@ -144,6 +144,16 @@ module AtomicCache
         if !value.nil?
           metrics(:increment, 'wait.present', tags: metrics_tags)
           return value
+        else
+          # if we didn't get a fresh value this go-round, check if there's a last known value
+          # if expirations were to come in rapidly, it's possible that the expiration which caused
+          # the wait cycle wrote a value, and it's now in LKV, and a new expiration came in, which
+          # has moved the LMT forward
+          value = last_known_value(keyspace, options, tags)
+          if !value.nil?
+            metrics(:increment, 'wait.lkv.present', tags: metrics_tags)
+            return value
+          end
         end
       end
 

@@ -163,6 +163,26 @@ describe 'AtomicCacheClient' do
               expect(result).to eq(new_value)
             end
 
+            it 'uses the last known value if the LMT increments while waiting' do
+              key_storage.set(timestamp_manager.last_modified_time_key, '1420090000')
+              key_storage.set(keyspace.last_known_key_key, 'lkk_key')
+              last_known_value = 'value from another thread'
+
+              # fetching the 'fresh' value continually returns nil (because LMT is incrementing forward)
+              allow(cache_storage).to receive(:read)
+                                        .with(timestamp_manager.current_key(keyspace), anything)
+                                        .and_return(nil, nil, nil, nil)
+
+              # multiple returned values are faking what it would look like if another process
+              # promoted a value (wrote LKV) but then the cache expired right after
+              allow(cache_storage).to receive(:read)
+                                        .with(timestamp_manager.last_known_key(keyspace), anything)
+                                        .and_return(nil, nil, nil, last_known_value)
+
+              result = subject.fetch(keyspace, backoff_duration_ms: 5) { 'value from generate' }
+              expect(result).to eq(last_known_value)
+            end
+
             it 'stops waiting when the max retry count is reached' do
               timestamp_manager.promote(keyspace, last_known_key: 'asdf', timestamp: 1420090000)
               result = subject.fetch(keyspace, backoff_duration_ms: 5) { 'value from generate' }
