@@ -44,8 +44,7 @@ module AtomicCache
     # @param last_known_key [String] a key with a known value to refer other processes to
     # @param timestamp [String, Numeric, Time] the timestamp with which the last_known_key was updated at
     def promote(keyspace, last_known_key:, timestamp:)
-      key = keyspace.last_known_key_key
-      @storage.set(key, last_known_key)
+      @storage.set(keyspace.last_known_key_key, last_known_key)
       @storage.set(last_modified_time_key, self.format(timestamp))
     end
 
