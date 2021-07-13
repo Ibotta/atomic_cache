@@ -93,8 +93,8 @@ module AtomicCache
         end
 
         new_key = @timestamp_manager.next_key(keyspace, lmt)
-        @timestamp_manager.promote(keyspace, last_known_key: new_key, timestamp: lmt)
         @storage.set(new_key, new_value, options)
+        @timestamp_manager.promote(keyspace, last_known_key: new_key, timestamp: lmt)
 
         metrics(:increment, 'generate.current-thread', tags: tags)
         log(:debug, "Generating new value for `#{new_key}`")
