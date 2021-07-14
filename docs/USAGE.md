@@ -38,6 +38,12 @@ The ideal `generate_ttl_ms` time is just slightly longer than the average genera
 
 If metrics are enabled, the `<namespace>.generate.run` can be used to determine the min/max/average generate time for a particular cache and the `generate_ttl_ms` tuned using that.
 
+##### ⚠️ TTL Rounding
+When using atomic_cache with memcached, be aware that the TTL will be rounded down to the nearest whole seconds. For example, a `generate_ttl_ms` value of 3500 will result in a 3s TTL with memcache.
+
+##### ⚠️ Max Rate of Change
+Atomic_cache will *not* remove the lock after the generation process is done. This is both more efficient, and allows the `generate_ttl_ms` to be used to limit the total rate of change. For example, if the typical database query behind the cache takes 2s to run, but `generate_ttl_ms` is set to 10s, then the lock will live on for 8s after the generate process finishes, preventing other processes from querying for a new value. In many ways, `generate_ttl_ms` is the amount of time that the system will be un-allowed to make additional queries.  
+
 #### `max_retries` & `backoff_duration_ms`
 _`max_retries` defaults to 5._
 _`backoff_duration_ms` defaults to 50ms._
