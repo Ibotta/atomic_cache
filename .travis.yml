@@ -1,23 +1,35 @@
 language: ruby
 addons:
   ssh_known_hosts: github.com
+
+rvm:
+  - 2.5
+  - 2.6
+  - 2.7
+gemfile:
+  - Gemfile.rails52
+  - Gemfile.rails6
+  - Gemfile.rails61
+
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
+    > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - "./cc-test-reporter before-build"
+script:
+  - bundle exec rake spec
+after_script:
+  - "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"
+
 jobs:
+  exclude: # matrix variations skipped
+    - rvm: 2.5
+      gemfile: Gemfile.rails6
+    - rvm: 2.5
+      gemfile: Gemfile.rails61
+    - rvm: 2.7
+      gemfile: Gemfile.rails52
   include:
-  - stage: test-2.5
-    rvm: 2.5
-    script:
-    - bundle exec rake spec
-  - stage: test-2.6
-    rvm: 2.6
-    before_script:
-    - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
-      > ./cc-test-reporter
-    - chmod +x ./cc-test-reporter
-    - "./cc-test-reporter before-build"
-    script:
-    - bundle exec rake spec
-    after_script:
-    - "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"
   - stage: tag-new-release-if-applicable
     if: branch = main AND type != pull_request
     rvm: 2.6
@@ -31,6 +43,7 @@ jobs:
     - git remote add deploy ssh://git@github.com/Ibotta/atomic_cache.git
     script:
     - "./ci-helpers/gem_helper kickoff_release_pipeline"
+
   - stage: publish-gem-if-applicable
     if: branch = main AND type != pull_request
     rvm: 2.6

@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   # Dev dependencies
-  spec.add_development_dependency 'bundler', '~> 1.14'
+  spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'gems', '~> 1.0'
   spec.add_development_dependency 'git', '~> 1.3'
   spec.add_development_dependency 'github_changelog_generator', '>= 1.15.0.pre.rc'
@@ -40,6 +40,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'timecop', '~> 0.8.1'
 
   # Dependencies
-  spec.add_dependency 'activesupport', '>= 4.2', '< 6'
+  spec.add_dependency 'activesupport', '>= 4.2'
   spec.add_dependency 'murmurhash3', '~> 0.1'
 end
