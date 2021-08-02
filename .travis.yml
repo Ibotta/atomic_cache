@@ -22,9 +22,11 @@ after_script:
   - "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"
 
 jobs:
-  exclude:
+  exclude: # matrix variations skipped
     - rvm: 2.5
       gemfile: Gemfile.rails6
+    - rvm: 2.5
+      gemfile: Gemfile.rails61
     - rvm: 2.7
       gemfile: Gemfile.rails52
   include:
