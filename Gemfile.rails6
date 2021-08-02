@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 source "https://rubygems.org"
-source 'https://ibdolphin.jfrog.io/ibdolphin/api/gems/gems-private/'
 
 gem 'rails', '>= 6.0', '< 6.1'
 
