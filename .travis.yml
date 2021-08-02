@@ -1,14 +1,17 @@
 language: ruby
 addons:
   ssh_known_hosts: github.com
+
 jobs:
   include:
   - stage: test-2.5
     rvm: 2.5
-    script:
-    - bundle exec rake spec
+    gemfile: Gemfile
+    script: bundle exec rake spec
+
   - stage: test-2.6
     rvm: 2.6
+    gemfile: Gemfile
     before_script:
     - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
       > ./cc-test-reporter
@@ -18,6 +21,12 @@ jobs:
     - bundle exec rake spec
     after_script:
     - "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"
+
+  - stage: test-rails6
+    rvm: 2.6
+    gemfile: Gemfile.rails6
+    script: bundle exec rake spec
+
   - stage: tag-new-release-if-applicable
     if: branch = main AND type != pull_request
     rvm: 2.6
@@ -31,6 +40,7 @@ jobs:
     - git remote add deploy ssh://git@github.com/Ibotta/atomic_cache.git
     script:
     - "./ci-helpers/gem_helper kickoff_release_pipeline"
+
   - stage: publish-gem-if-applicable
     if: branch = main AND type != pull_request
     rvm: 2.6
