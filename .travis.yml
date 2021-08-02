@@ -5,9 +5,12 @@ addons:
 rvm:
   - 2.5
   - 2.6
+  - 2.7
 gemfile:
   - Gemfile.rails52
   - Gemfile.rails6
+  - Gemfile.rails61
+
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
     > ./cc-test-reporter
@@ -22,6 +25,8 @@ jobs:
   exclude:
     - rvm: 2.5
       gemfile: Gemfile.rails6
+    - rvm: 2.7
+      gemfile: Gemfile.rails52
   include:
   - stage: tag-new-release-if-applicable
     if: branch = main AND type != pull_request
