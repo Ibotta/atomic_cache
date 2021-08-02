@@ -2,31 +2,27 @@ language: ruby
 addons:
   ssh_known_hosts: github.com
 
+rvm:
+  - 2.5
+  - 2.6
+gemfile:
+  - Gemfile.rails52
+  - Gemfile.rails6
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
+    > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - "./cc-test-reporter before-build"
+script:
+  - bundle exec rake spec
+after_script:
+  - "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"
+
 jobs:
+  exclude:
+    - rvm: 2.5
+      gemfile: Gemfile.rails6
   include:
-  - stage: test-2.5
-    rvm: 2.5
-    gemfile: Gemfile
-    script: bundle exec rake spec
-
-  - stage: test-2.6
-    rvm: 2.6
-    gemfile: Gemfile
-    before_script:
-    - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
-      > ./cc-test-reporter
-    - chmod +x ./cc-test-reporter
-    - "./cc-test-reporter before-build"
-    script:
-    - bundle exec rake spec
-    after_script:
-    - "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"
-
-  - stage: test-rails6
-    rvm: 2.6
-    gemfile: Gemfile.rails6
-    script: bundle exec rake spec
-
   - stage: tag-new-release-if-applicable
     if: branch = main AND type != pull_request
     rvm: 2.6
