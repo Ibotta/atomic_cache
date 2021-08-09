@@ -1,8 +1,18 @@
 # Changelog
 
-## [0.5.2.rc1](https://github.com/Ibotta/atomic_cache/tree/0.5.2.rc1) (2021-07-13)
+## [0.5.3.rc1](https://github.com/Ibotta/atomic_cache/tree/0.5.3.rc1) (2021-08-09)
 
-[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.5.1.rc1...0.5.2.rc1)
+[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.5.2.rc1...0.5.3.rc1)
+
+**Merged pull requests:**
+
+- \[MTF-593\] Remove LKV check from Atomic Cache Gem. [\#38](https://github.com/Ibotta/atomic_cache/pull/38) ([AmishNinja](https://github.com/AmishNinja))
+- Build Matrix: Rails 6, 6.1, Ruby 2.7 [\#37](https://github.com/Ibotta/atomic_cache/pull/37) ([tstone](https://github.com/tstone))
+- Add clarification/warning about TTL times [\#36](https://github.com/Ibotta/atomic_cache/pull/36) ([tstone](https://github.com/tstone))
+
+## [v0.5.2.rc1](https://github.com/Ibotta/atomic_cache/tree/v0.5.2.rc1) (2021-07-13)
+
+[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.5.1.rc1...v0.5.2.rc1)
 
 **Merged pull requests:**
 
