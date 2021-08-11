@@ -29,3 +29,47 @@ class Foo < ActiveRecord::Base
   cache_version(5)
 end
 ```
+
+### Inheritance
+
+When either `force_cache_class` or `cache_version` are used, those values will always be preferred by classes which inherit from the class on which those macros exist. When macros are used on descendant classes, the "closet" value wins.
+
+#### Example #1
+The keys used by `Bar` will be prefixed with `custom:v5`, as it prefers both the 'custom' class name and version 5 from the parent.
+```ruby
+class Foo < ActiveRecord::Base
+  include AtomicCache::GlobalLMTCacheConcern
+  force_cache_class('custom')
+  cache_version(5)
+end
+
+class Bar < Foo
+end
+```
+
+#### Example #2
+The keys used by `Bar` will be prefixed with `bar:v5`, as the version 5 is taken from the parent, but the use of forcing on the child class result in the cache class of 'bar'.
+```ruby
+class Foo < ActiveRecord::Base
+  include AtomicCache::GlobalLMTCacheConcern
+  cache_version(5)
+end
+
+class Bar < Foo
+  force_cache_class('bar')
+end
+```
+
+#### Example #3
+The keys used by `Bar` will be still be prefixed with `bar:v5` for the same reasons as above.
+```ruby
+class Foo < ActiveRecord::Base
+  include AtomicCache::GlobalLMTCacheConcern
+  force_cache_class('custom')
+  cache_version(5)
+end
+
+class Bar < Foo
+  force_cache_class('bar')
+end
+```
