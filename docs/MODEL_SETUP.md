@@ -73,3 +73,21 @@ class Bar < Foo
   force_cache_class('bar')
 end
 ```
+
+### Rails Model Inheritance
+
+It's not uncommon in rails to end up with model inhertiance. For example:
+
+```ruby
+class Content < ActiveRecord::Base
+  include AtomicCache::GlobalLMTCacheConcern
+  force_cache_class('content')
+end
+
+class BlogPost < Content
+end
+```
+
+If these models will be cached together into a single key, it's preferable to force the cache class on the parent, causing all the descendant types to use the same keyspace. Not doing this will cause each subtype to use it's own last modified time.
+
+If the models will be treated as separate collections and cached separately, this is not recommended. Alternately, if only some subtypes will be cached together, those should share a forced cache class and version.
