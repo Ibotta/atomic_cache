@@ -63,15 +63,29 @@ module AtomicCache
         @timestamp_manager.last_modified_time
       end
 
+      # protected
+
+      def cache_version_get
+        return @atomic_cache_version if @atomic_cache_version.present?
+        return self.superclass.cache_version_get if self.superclass.respond_to?(:cache_version_get)
+        nil
+      end
+
+      def cache_class_get
+        return @atomic_cache_class if @atomic_cache_class.present?
+        return self.superclass.cache_class_get if self.superclass.respond_to?(:cache_class_get)
+        nil
+      end
+
       private
 
       def init_atomic_cache
         return if @atomic_cache.present?
         ATOMIC_CACHE_CONCERN_MUTEX.synchronize do
-          cache_class = @atomic_cache_class || default_cache_class
+          cache_class = cache_class_get || default_cache_class
           prefix = [cache_class]
           prefix.unshift(DefaultConfig.instance.namespace) if DefaultConfig.instance.namespace.present?
-          prefix.push("v#{@atomic_cache_version}") if @atomic_cache_version.present?
+          prefix.push("v#{cache_version_get}") if cache_version_get.present?
           @default_cache_keyspace = Keyspace.new(namespace: prefix, root: cache_class)
 
           @timestamp_manager = LastModTimeKeyManager.new(

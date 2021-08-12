@@ -113,6 +113,61 @@ describe 'AtomicCacheConcern' do
       subject.expire_cache
       expect(key_storage.store).to have_key(:'foo:v3:lmt')
     end
+
+    context 'with version < class inheritance' do
+      subject do
+        class Foo3
+          include AtomicCache::GlobalLMTCacheConcern
+          cache_version(6)
+        end
+        class Foo4 < Foo3
+          force_cache_class('foo')
+        end
+        Foo4
+      end
+
+      it 'uses the version from the parent and the forced class name from the macro' do
+        subject.expire_cache
+        expect(key_storage.store).to have_key(:'foo:v6:lmt')
+      end
+    end
+
+    context 'with class < version inheritance' do
+      subject do
+        class Foo5
+          include AtomicCache::GlobalLMTCacheConcern
+          force_cache_class('foo')
+        end
+        class Foo6 < Foo5
+          cache_version(6)
+        end
+        Foo6
+      end
+
+      it 'uses the cache class from the parent and version from the macro' do
+        subject.expire_cache
+        expect(key_storage.store).to have_key(:'foo:v6:lmt')
+      end
+    end
+
+    context 'dual force_cache_class' do
+      subject do
+        class Foo6
+          include AtomicCache::GlobalLMTCacheConcern
+          force_cache_class('foo')
+        end
+        class Foo7 < Foo6
+          force_cache_class('bar')
+          cache_version(6)
+        end
+        Foo7
+      end
+
+      it 'uses the prefers the forced class name from the macro' do
+        subject.expire_cache
+        expect(key_storage.store).to have_key(:'bar:v6:lmt')
+      end
+    end
   end
 
   context 'storage macros' do
