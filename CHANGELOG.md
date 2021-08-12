@@ -1,8 +1,16 @@
 # Changelog
 
-## [0.5.3.rc1](https://github.com/Ibotta/atomic_cache/tree/0.5.3.rc1) (2021-08-09)
+## [0.5.4.rc1](https://github.com/Ibotta/atomic_cache/tree/0.5.4.rc1) (2021-08-12)
 
-[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.5.2.rc1...0.5.3.rc1)
+[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.5.3.rc1...0.5.4.rc1)
+
+**Merged pull requests:**
+
+- Class Macros & Inheritance [\#39](https://github.com/Ibotta/atomic_cache/pull/39) ([tstone](https://github.com/tstone))
+
+## [v0.5.3.rc1](https://github.com/Ibotta/atomic_cache/tree/v0.5.3.rc1) (2021-08-09)
+
+[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.5.2.rc1...v0.5.3.rc1)
 
 **Merged pull requests:**
 
