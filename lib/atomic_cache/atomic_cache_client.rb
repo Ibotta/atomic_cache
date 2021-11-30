@@ -148,7 +148,7 @@ module AtomicCache
       end
 
       metrics(:increment, 'wait.give-up')
-      log(:warn, "Giving up waiting. Exceeded max retries (#{max_retries}).")
+      log(:warn, "Giving up waiting. Exceeded max retries (#{max_retries}) for root #{keyspace.root}.")
       nil
     end
 
