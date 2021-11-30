@@ -1,8 +1,16 @@
 # Changelog
 
-## [0.5.4.rc1](https://github.com/Ibotta/atomic_cache/tree/0.5.4.rc1) (2021-08-12)
+## [0.5.5.rc1](https://github.com/Ibotta/atomic_cache/tree/0.5.5.rc1) (2021-11-30)
 
-[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.5.3.rc1...0.5.4.rc1)
+[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.5.4.rc1...0.5.5.rc1)
+
+**Merged pull requests:**
+
+- Mtf 753 more info on give up log [\#40](https://github.com/Ibotta/atomic_cache/pull/40) ([lebeerman](https://github.com/lebeerman))
+
+## [v0.5.4.rc1](https://github.com/Ibotta/atomic_cache/tree/v0.5.4.rc1) (2021-08-12)
+
+[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.5.3.rc1...v0.5.4.rc1)
 
 **Merged pull requests:**
 
