@@ -1,0 +1,107 @@
+name: ibotta/atomic_cache
+on:
+  push:
+    branches:
+    - "**/*"
+  pull_request:
+  schedule:
+  - cron: 53 9 13 * *
+concurrency:
+#   # This item has no matching transformer
+#   maximum_number_of_builds: 0
+  group: "${{ github.ref }}"
+  cancel-in-progress: true
+env:
+  CC_TEST_REPORTER_ID: "${{ secrets.CC_TEST_REPORTER_ID }}"
+  RUBYGEMS_API_TOKEN: "${{ secrets.RUBYGEMS_API_TOKEN }}"
+  GITHUB_API_TOKEN: "${{ secrets.GITHUB_API_TOKEN }}"
+  encrypted_3b12ef27616a_key: "${{ secrets.ENCRYPTED_3B12EF27616A_KEY }}"
+  encrypted_3b12ef27616a_iv: "${{ secrets.ENCRYPTED_3B12EF27616A_IV }}"
+  PASSPHRASE: "${{ secrets.PASSPHRASE }}"
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - run: |-
+        mkdir -p ~/.ssh
+        ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: "${{ matrix.rvm }}"
+    - name: checkout
+      uses: actions/checkout@v2
+    - run: gem install bundler
+    - run: bundle install --jobs=3 --retry=3
+    - run: curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+    - run: chmod +x ./cc-test-reporter
+    - run: "./cc-test-reporter before-build"
+    - run: bundle exec rake spec
+    - run: "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"
+    strategy:
+      matrix:
+        rvm:
+        - 2.5
+        - 2.6
+        - 2.7
+        gemfile:
+        - Gemfile.rails52
+        - Gemfile.rails6
+        - Gemfile.rails61
+        exclude:
+        - rvm: 2.5
+          gemfile: Gemfile.rails6
+        - rvm: 2.5
+          gemfile: Gemfile.rails61
+        - rvm: 2.7
+          gemfile: Gemfile.rails52
+    env:
+      BUNDLE_GEMFILE: gemfiles/${{ matrix.gemfile }}.gemfile
+  tag_new_release_if_applicable:
+    needs:
+    - test
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
+    steps:
+    - run: |-
+        mkdir -p ~/.ssh
+        ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+    - name: checkout
+      uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.6
+#     # 'gemfile' dependencies are currently unsupported
+    - run: gem install bundler
+    - run: bundle install --jobs=3 --retry=3
+    - run: openssl aes-256-cbc -K $encrypted_3b12ef27616a_key -iv $encrypted_3b12ef27616a_iv -in ./ci-helpers/atomic_cache_deploy.enc -out atomic_cache_deploy -d
+    - run: echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+    - run: chmod 600 atomic_cache_deploy
+    - run: mv atomic_cache_deploy ~/.ssh/id_rsa
+    - run: git config --global user.email "deploy-bot@ibotta.com"
+    - run: git config --global user.name "Deploy Bot"
+    - run: git remote add deploy ssh://git@github.com/Ibotta/atomic_cache.git
+    - run: "./ci-helpers/gem_helper kickoff_release_pipeline"
+    - run: "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"
+  publish_gem_if_applicable:
+    needs:
+    - test
+    - tag_new_release_if_applicable
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
+    steps:
+    - run: |-
+        mkdir -p ~/.ssh
+        ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+    - name: checkout
+      uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.6
+#     # 'gemfile' dependencies are currently unsupported
+    - run: gem install bundler
+    - run: bundle install --jobs=3 --retry=3
+    - run: curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+    - run: chmod +x ./cc-test-reporter
+    - run: "./cc-test-reporter before-build"
+    - run: "./ci-helpers/gem_helper publish"
+    - run: "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"
