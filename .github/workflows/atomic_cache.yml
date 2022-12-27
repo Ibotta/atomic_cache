@@ -51,7 +51,7 @@ jobs:
         - rvm: 2.7
           gemfile: Gemfile.rails52
     env:
-      BUNDLE_GEMFILE: gemfiles/${{ matrix.gemfile }}
+      BUNDLE_GEMFILE: ${{ matrix.gemfile }}
   tag_new_release_if_applicable:
     needs:
     - test
