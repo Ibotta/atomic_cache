@@ -25,11 +25,11 @@ jobs:
     - run: |-
         mkdir -p ~/.ssh
         ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+    - name: checkout
+      uses: actions/checkout@v3
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: "${{ matrix.rvm }}"
-    - name: checkout
-      uses: actions/checkout@v2
     - run: gem install bundler
     - run: bundle install --jobs=3 --retry=3
     - run: bundle exec rake spec
