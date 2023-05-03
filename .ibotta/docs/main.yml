@@ -1,0 +1,4 @@
+name: atomic_cache
+description: a gem which prevents the thundering herd problem
+type: tool
+data_classification: 3
