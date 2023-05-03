@@ -34,7 +34,7 @@ module AtomicCache
     # @option options [Numeric] :max_retries (5) Max times to rety in waiting case
     # @option options [Numeric] :backoff_duration_ms (50) Duration in ms to wait between retries
     # @yield Generates a new value when cache is expired
-    def fetch(keyspace, options={})
+    def fetch(keyspace, options={}, &blk)
       key = @timestamp_manager.current_key(keyspace)
       tags = ["cache_keyspace:#{keyspace.root}"]
 
@@ -51,7 +51,7 @@ module AtomicCache
 
       # try to generate a new value if another process already isn't
       if block_given?
-        new_value = generate_and_store(keyspace, options, tags, &Proc.new)
+        new_value = generate_and_store(keyspace, options, tags, &blk)
         return new_value unless new_value.nil?
       end
 
@@ -164,9 +164,9 @@ module AtomicCache
       @metrics.send(method, *args) if @metrics.present?
     end
 
-    def time(*args)
+    def time(*args, &blk)
       if @metrics.present?
-        @metrics.time(*args, &Proc.new)
+        @metrics.time(*args, &blk)
       else
         yield
       end
