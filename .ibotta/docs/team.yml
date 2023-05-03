@@ -1,0 +1,36 @@
+
+# --------------------------------------
+# Ibotta Repository Team Metadata File
+# Guide: https://catalog.ibops.net/repo/tech-knowledge/doc/user-guides/team-yml?branch=main
+# --------------------------------------
+#
+# NOTE: If your team already has a team.yml, you can use 'remote:' to reference it (see link above)
+#
+
+name: 
+group: "" # required
+# subgroup: "" # optional
+
+
+# REQUIRED - at least one:
+slack:
+  "#_oncall":
+    # url: Ex/ "https://ibotta.slack.com/archives/XXXXXX"
+    desc: " team oncall channel" # optional
+  "#_public":
+    # url: Ex/ "https://ibotta.slack.com/archives/XXXXXX"
+    desc: "general  team public channel"
+
+# OPTIONAL
+# slack_handles:
+#   "@example-handle":
+#     desc: "on-call handle example"
+#     tags:
+#     - oncall
+# 
+#   "@example-other-handle":
+
+# REQUIRED - at least one
+email:
+  "team@ibotta.com":
+    desc: "general  email"
