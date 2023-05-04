@@ -9,10 +9,12 @@ on:
 # concurrency:
 #   group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
 
+permissions:
+  contents: write
+  pull-requests: read
+
 env:
   RUBYGEMS_API_TOKEN: "${{ secrets.RUBYGEMS_API_TOKEN }}"
-  GITHUB_API_TOKEN: "${{ secrets.GITHUB_API_TOKEN }}"
-  PASSPHRASE: "${{ secrets.PASSPHRASE }}"
   HEAD_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
 
 jobs:
@@ -45,21 +47,12 @@ jobs:
     if: ${{ github.ref_name == 'main' && github.event_name != 'pull_request' }}
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Setup Ruby
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: 2.7
         bundler-cache: true
-    - name: Configure Credentials
-      run: |
-        openssl aes-256-cbc -K $encrypted_3b12ef27616a_key -iv $encrypted_3b12ef27616a_iv -in ./ci-helpers/atomic_cache_deploy.enc -out atomic_cache_deploy -d
-        echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-        chmod 600 atomic_cache_deploy
-        mv atomic_cache_deploy ~/.ssh/id_rsa
-        git config --global user.email "deploy-bot@ibotta.com"
-        git config --global user.name "Deploy Bot"
-        git remote add deploy ssh://git@github.com/Ibotta/atomic_cache.git
     - name: Kickoff Release Pipeline
       run: "./ci-helpers/gem_helper kickoff_release_pipeline"
 
@@ -71,7 +64,7 @@ jobs:
     if: ${{ github.ref_name == 'main' && github.event_name != 'pull_request' }}
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Setup Ruby
       uses: ruby/setup-ruby@v1
       with:

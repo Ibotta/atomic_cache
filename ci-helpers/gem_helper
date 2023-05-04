@@ -106,7 +106,7 @@ module AtomicCacheCi
     end
 
     def github_release
-      github = Octokit::Client.new(access_token: ENV['GITHUB_API_TOKEN'])
+      github = Octokit::Client.new(access_token: ENV['GITHUB_TOKEN'])
       tag = "v#{local_version}"
       github.create_release("Ibotta/#{GEM_NAME}", tag,
         tag_name: tag,
