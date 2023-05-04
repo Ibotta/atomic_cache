@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
   '* When a newer version of a cached value is available, it is written to a new key'\
   '* When a new value is being generated for a new key only 1 process is allowed to do so at a time'\
   '* While the new value is being generated, other processes read one key older than most recent'\
-  
+
   spec.licenses      = ['Apache-2.0']
   spec.homepage      = 'https://github.com/ibotta/atomic_cache'
 
@@ -30,14 +30,14 @@ Gem::Specification.new do |spec|
 
   # Dev dependencies
   spec.add_development_dependency 'bundler'
-  spec.add_development_dependency 'gems', '~> 1.0'
-  spec.add_development_dependency 'git', '~> 1.3'
+  spec.add_development_dependency 'gems'
+  spec.add_development_dependency 'git'
   spec.add_development_dependency 'github_changelog_generator', '>= 1.15.0.pre.rc'
   spec.add_development_dependency 'octokit', '~> 4.0'
-  spec.add_development_dependency 'rake', '~> 10.0'
-  spec.add_development_dependency 'rspec', '~> 3.0'
-  spec.add_development_dependency 'simplecov', '~> 0.15'
-  spec.add_development_dependency 'timecop', '~> 0.8.1'
+  spec.add_development_dependency 'rake'
+  spec.add_development_dependency 'rspec'
+  spec.add_development_dependency 'simplecov'
+  spec.add_development_dependency 'timecop'
   spec.add_development_dependency 'pry'
 
   # Dependencies
