@@ -17,14 +17,6 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
-    steps:
-    - name: checkout
-      uses: actions/checkout@v3
-    - uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby }}
-        bundler-cache: true
-    - run: bundle exec rake spec
     strategy:
       fail-fast: false
       matrix:
@@ -34,19 +26,32 @@ jobs:
         - Gemfile.rails7
     env:
       BUNDLE_GEMFILE: ${{ matrix.gemfile }}
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
+        ruby-version: ${{ matrix.ruby }}
+    - name: Test
+      run: bundle exec rake spec
+
   tag_new_release_if_applicable:
     needs:
     - test
     runs-on: ubuntu-latest
     if: ${{ github.ref_name == 'main' && github.event_name != 'pull_request' }}
     steps:
-    - name: checkout
+    - name: Checkout Code
       uses: actions/checkout@v2
-    - uses: ruby/setup-ruby@v1
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
       with:
         ruby-version: 2.7
         bundler-cache: true
-    - run: |
+    - name: Configure Credentials
+      run: |
         openssl aes-256-cbc -K $encrypted_3b12ef27616a_key -iv $encrypted_3b12ef27616a_iv -in ./ci-helpers/atomic_cache_deploy.enc -out atomic_cache_deploy -d
         echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
         chmod 600 atomic_cache_deploy
@@ -54,7 +59,9 @@ jobs:
         git config --global user.email "deploy-bot@ibotta.com"
         git config --global user.name "Deploy Bot"
         git remote add deploy ssh://git@github.com/Ibotta/atomic_cache.git
-    - run: "./ci-helpers/gem_helper kickoff_release_pipeline"
+    - name: Kickoff Release Pipeline
+      run: "./ci-helpers/gem_helper kickoff_release_pipeline"
+
   publish_gem_if_applicable:
     needs:
     - test
@@ -62,13 +69,15 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.ref_name == 'main' && github.event_name != 'pull_request' }}
     steps:
-    - run: |-
+    - name: Checkout Code
+      uses: actions/checkout@v2
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.1
+        bundler-cache: true
+    - name: Publish
+      run: |-
         mkdir -p ~/.ssh
         ssh-keyscan -H github.com >> ~/.ssh/known_hosts
-    - name: checkout
-      uses: actions/checkout@v2
-    - uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: 2.7
-        bundler-cache: true
-    - run: "./ci-helpers/gem_helper publish"
+        ./ci-helpers/gem_helper publish
