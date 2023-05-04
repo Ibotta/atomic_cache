@@ -1,13 +1,4 @@
-name: Atomic Cache 
-description: Ruby Caching Solution 
-framework: ruby 
-tier: 3
-
-nav:
-  - title: Documentation
-    type: nav
-    children:
-      - title: Overview
-        file: .README.md
-
-type: library 
+name: atomic_cache
+description: a gem which prevents the thundering herd problem
+type: tool
+data_classification: 3

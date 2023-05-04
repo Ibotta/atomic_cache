@@ -1,18 +1,1 @@
-# --------------------------------------
-# Ibotta Repository Team Metadata File
-# Guide: https://catalog.ibops.net/repo/tech-knowledge/doc/user-guides/team-yml?branch=main
-# --------------------------------------
-
-name: Monolith Task Force
-group: Platform
-
-github: "@Ibotta/monolith-task-force"
-
-slack:
-  "#monolith-task-force_support":
-    url: "https://ibotta.slack.com/archives/C03V6KN2B5G"
-    desc: "mtf support channel"
-
-email:
-  "monolith-task-force@ibotta.com":
-    desc: "mtf e-mail"
+remote: https://github.com/Ibotta/ibotta_cli/blob/main/.ibotta/docs/team.yml
