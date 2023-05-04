@@ -13,6 +13,7 @@ env:
   RUBYGEMS_API_TOKEN: "${{ secrets.RUBYGEMS_API_TOKEN }}"
   GITHUB_API_TOKEN: "${{ secrets.GITHUB_API_TOKEN }}"
   PASSPHRASE: "${{ secrets.PASSPHRASE }}"
+  HEAD_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
 
 jobs:
   test:

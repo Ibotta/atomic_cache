@@ -54,7 +54,7 @@ module AtomicCacheCi
     end
 
     def release_commit?
-      ENV['TRAVIS_COMMIT_MESSAGE'].start_with?(RELEASE_COMMIT_PREFIX)
+      ENV['HEAD_COMMIT_MESSAGE'].start_with?(RELEASE_COMMIT_PREFIX)
     end
 
     def repo_has_newer_version_than_rubygems?
