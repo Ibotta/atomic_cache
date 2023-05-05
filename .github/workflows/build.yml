@@ -54,7 +54,7 @@ jobs:
         ruby-version: 3.2
         bundler-cache: true
     - name: Kickoff Release Pipeline
-      run: "./ci-helpers/gem_helper kickoff_release_pipeline"
+      run: "bundle exec ./ci-helpers/gem_helper kickoff_release_pipeline"
 
   publish_gem_if_applicable:
     needs:
@@ -74,4 +74,4 @@ jobs:
       run: |-
         mkdir -p ~/.ssh
         ssh-keyscan -H github.com >> ~/.ssh/known_hosts
-        ./ci-helpers/gem_helper publish
+        bundle exec ./ci-helpers/gem_helper publish
