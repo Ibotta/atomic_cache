@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 module AtomicCache
-  VERSION = "0.5.5.rc1"
+  VERSION = "0.6.0"
 end
