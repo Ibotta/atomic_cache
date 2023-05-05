@@ -71,7 +71,7 @@ jobs:
         ruby-version: 3.2
         bundler-cache: true
     - name: Publish
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
       run: |-
-        mkdir -p ~/.ssh
-        ssh-keyscan -H github.com >> ~/.ssh/known_hosts
         bundle exec ./ci-helpers/gem_helper publish
