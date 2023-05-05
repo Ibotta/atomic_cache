@@ -120,7 +120,7 @@ module AtomicCacheCi
 end
 
 if !ENV['CI']
-  raise('This script should only be used by Travis in a CI enviornment.')
+  raise('This script should only be used in a CI enviornment.')
 end
 
 cmd = ARGV.first
