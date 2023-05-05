@@ -1,8 +1,17 @@
 # Changelog
 
-## [0.5.5.rc1](https://github.com/Ibotta/atomic_cache/tree/0.5.5.rc1) (2021-11-30)
+## [0.6.0](https://github.com/Ibotta/atomic_cache/tree/0.6.0) (2023-05-05)
 
-[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.5.4.rc1...0.5.5.rc1)
+[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.5.5.rc1...0.6.0)
+
+**Merged pull requests:**
+
+- Add organizational metadata [\#45](https://github.com/Ibotta/atomic_cache/pull/45) ([tstone](https://github.com/tstone))
+- Github Actions migration [\#42](https://github.com/Ibotta/atomic_cache/pull/42) ([mersman](https://github.com/mersman))
+
+## [v0.5.5.rc1](https://github.com/Ibotta/atomic_cache/tree/v0.5.5.rc1) (2021-11-30)
+
+[Full Changelog](https://github.com/Ibotta/atomic_cache/compare/v0.5.4.rc1...v0.5.5.rc1)
 
 **Merged pull requests:**
 
