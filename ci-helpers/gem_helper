@@ -54,7 +54,7 @@ module AtomicCacheCi
     end
 
     def release_commit?
-      ENV['TRAVIS_COMMIT_MESSAGE'].start_with?(RELEASE_COMMIT_PREFIX)
+      ENV['HEAD_COMMIT_MESSAGE'].start_with?(RELEASE_COMMIT_PREFIX)
     end
 
     def repo_has_newer_version_than_rubygems?
@@ -106,7 +106,7 @@ module AtomicCacheCi
     end
 
     def github_release
-      github = Octokit::Client.new(access_token: ENV['GITHUB_API_TOKEN'])
+      github = Octokit::Client.new(access_token: ENV['GITHUB_TOKEN'])
       tag = "v#{local_version}"
       github.create_release("Ibotta/#{GEM_NAME}", tag,
         tag_name: tag,
@@ -120,7 +120,7 @@ module AtomicCacheCi
 end
 
 if !ENV['CI']
-  raise('This script should only be used by Travis in a CI enviornment.')
+  raise('This script should only be used in a CI enviornment.')
 end
 
 cmd = ARGV.first
