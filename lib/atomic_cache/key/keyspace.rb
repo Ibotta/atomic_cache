@@ -33,9 +33,9 @@ module AtomicCache
     # @param namespace [Array<Object>] segments to concat onto this keyspace
     # @return [AtomicCache::Keyspace] child keyspace
     def child(namespace)
-      throw ArgumentError.new("Prefix must be an Array but was #{namespace.class}") unless namespace.is_a?(Array)
-      joined_namespacees = @namespace.clone.concat(namespace)
-      self.class.new(namespace: joined_namespacees)
+      raise ArgumentError.new("Prefix must be an Array but was #{namespace.class}") unless namespace.is_a?(Array)
+      joined_namespaces = @namespace.clone.concat(namespace)
+      self.class.new(namespace: joined_namespaces)
     end
 
     # Get a string key for this keyspace, optionally suffixed by the given value

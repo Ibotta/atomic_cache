@@ -31,7 +31,7 @@ module AtomicCache
     #
     # @param keyspace [AtomicCache::Keyspace] the keyspace to fetch
     # @option options [Numeric] :generate_ttl_ms (30000) Max generate duration in ms
-    # @option options [Numeric] :max_retries (5) Max times to rety in waiting case
+    # @option options [Numeric] :max_retries (5) Max times to retry in waiting case
     # @option options [Numeric] :backoff_duration_ms (50) Duration in ms to wait between retries
     # @yield Generates a new value when cache is expired
     def fetch(keyspace, options={}, &blk)

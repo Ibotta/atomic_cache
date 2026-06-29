@@ -18,7 +18,7 @@ module AtomicCache
       @timestamp_formatter = timestamp_formatter || DefaultConfig.instance.timestamp_formatter
 
       raise ArgumentError.new("`storage` required but none given") unless @storage.present?
-      raise ArgumentError.new("`root_keyspace` required but none given") unless @storage.present?
+      raise ArgumentError.new("`timestamp_keyspace` required but none given") unless @timestamp_keyspace.present?
     end
 
     # get the key at the given keyspace, suffixed by the current timestamp
