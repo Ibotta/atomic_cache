@@ -50,7 +50,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.4.9
+          ruby-version: 3.4.10
           bundler-cache: true
       - name: Kickoff Release Pipeline
         run: "bundle exec ./ci-helpers/gem_helper kickoff_release_pipeline"
@@ -67,7 +67,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.4.9
+          ruby-version: 3.4.10
           bundler-cache: true
       - name: Publish
         env:
