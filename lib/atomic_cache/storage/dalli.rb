@@ -10,7 +10,7 @@ module AtomicCache
     class Dalli < Store
       extend Forwardable
 
-      def_delegators :@dalli_client, :delete
+      def_delegators :@dalli_client, :delete, :close, :reset
 
       def initialize(dalli_client)
         @dalli_client = dalli_client
@@ -35,7 +35,6 @@ module AtomicCache
         user_options.delete(:ttl)
         !!@dalli_client.set(key, value, ttl, user_options)
       end
-
     end
   end
 end

@@ -7,6 +7,8 @@ class FakeDalli
   def read(key, user_options); end
   def set(key, new_value, user_options); end
   def delete(key, user_options); end
+  def close(); end
+  def reset(); end
 end
 
 describe 'Dalli' do
@@ -33,6 +35,16 @@ describe 'Dalli' do
   it 'delegates #delete' do
     expect(dalli_client).to receive(:delete).with('key')
     subject.delete('key')
+  end
+
+  it 'delegates #close' do
+    expect(dalli_client).to receive(:close)
+    subject.close
+  end
+
+  it 'delegates #reset' do
+    expect(dalli_client).to receive(:reset)
+    subject.reset
   end
 
   context '#add' do
