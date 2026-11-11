@@ -33,7 +33,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'gems'
   spec.add_development_dependency 'git'
   spec.add_development_dependency 'github_changelog_generator', '>= 1.15.0.pre.rc'
-  spec.add_development_dependency 'octokit', '~> 4.0'
+  spec.add_development_dependency 'octokit', '~> 10.0'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'simplecov'
